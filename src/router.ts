@@ -5,6 +5,7 @@ import { RepoPostrgresError } from "./repo/RepoPostrgresError.js";
 import { ErrorRanelagh } from "./model/Error.js";
 import dotenv from "dotenv";
 import { RepoPostgresPersonal } from "./repo/RepoPostgresPersonal.js";
+import { parse } from "path";
 dotenv.config();
 
 export interface Notificacion {
@@ -29,6 +30,9 @@ export class ErroresRouter {
         this.validarRutasDeSalud();
     }
 
+    /**
+     * Carga las rutas para obtener la lista de personal y para registrar un error en la base de datos.
+     */
     private cargarRutas() {
         this.router.get("/personal", async (req: Request, res: Response) => {
             try {
@@ -50,11 +54,11 @@ export class ErroresRouter {
         this.router.post("/registrar-error", async (req: Request, res: Response) => {
             try {
                 const datosError = req.body
-
-                console.log(datosError);
                 const reesponsableId = parseInt(datosError.responsable);
                 const responsable = await this.repo.get(reesponsableId); //enviar el nombre, el sector y el puesto
                 const detectadoPorId = parseInt(datosError.detectadoPor);
+                const emitidoPorId = parseInt(datosError.emitidoPor);
+                const emitidoPor = await this.repo.get(emitidoPorId);
                 const detectadoPor = await this.repo.get(detectadoPorId); //enviar el nombre
                 if (!responsable || responsable.getNombre() === "") {
                     const notificacion: Notificacion = {
@@ -81,6 +85,7 @@ export class ErroresRouter {
                 const enviarAN8N: {
                     refDocumento: string;
                     responsable: string;
+                    emitidoPor?: string;
                     detectadoPor?: string;
                     puestoResponsable: string;
                     sectorResponsable: string;
@@ -93,6 +98,7 @@ export class ErroresRouter {
                     refDocumento: datosError.refDocumento,
                     responsable: responsable.getNombre(),
                     detectadoPor: detectadoPor?.getNombre(),
+                    emitidoPor: emitidoPor?.getNombre(),
                     puestoResponsable: responsable.getPuesto(),
                     sectorResponsable: responsable.getSector(),
                     comentarioError: datosError.comentarioError,
@@ -104,6 +110,7 @@ export class ErroresRouter {
                 const errorDB = new ErrorRanelagh(
                     enviarAN8N.refDocumento,
                     enviarAN8N.responsable,
+                    enviarAN8N.emitidoPor || "no identificado",
                     enviarAN8N.detectadoPor || "no identificado",
                     enviarAN8N.puestoResponsable,
                     enviarAN8N.sectorResponsable,
@@ -178,6 +185,26 @@ export class ErroresRouter {
             }
         })
     }
+    /**
+     * Verifica la salud del servicio.
+     *
+     * Verifica si la conexión a la base de datos es exitosa y si el
+     * servicio n8n est  disponible.
+     *
+     * Devuelve un objeto con la siguiente estructura:
+     * {
+     *   uptime: number,
+     *   message: string,
+     *   timestamp: number,
+     *   database: boolean,
+     *   external_services: {
+     *       n8n: boolean
+     *   }
+     * }
+     *
+     * Si el servicio est  disponible, devuelve un 200 con el objeto de salud.
+     * Si no est  disponible, devuelve un 503 con el objeto de salud.
+     */
     private validarRutasDeSalud() {
         this.router.get("/health", async (req: Request, res: Response) => {
             const healthcheck = {

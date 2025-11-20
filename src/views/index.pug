@@ -33,13 +33,10 @@ html
                     input(type="text" name="refDocumento" id="refDocumento")
 
                 //- Emisor del error
-                    .form-group
-                        label(for="emisorError") Emisor: 
-                        select(name="emisorError" id="emisorError")
-                            option(value="", disabled, selected) Selecciona un emisor
-                            option(value="Leonel") Leonel
-                            option(value="Laura") Laura
-                            option(value="Pedro") Pedro
+                .form-group
+                    label(for="emitidoPor") Emitido por: 
+                        input(type="text" name="emitidoPor" id="emitidoPor" list="responsables-list" placeholder="Escribe para buscar...")
+                        datalist#emitido_por-list
 
                 .form-group
                     label(for="responsable") Responsable del error: 

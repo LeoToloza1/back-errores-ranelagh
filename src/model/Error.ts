@@ -2,6 +2,7 @@ export class ErrorRanelagh {
     private id: number | null;
     private refDocumento: string;
     private responsable: string;
+    private emitidoPor: string;
     private detectadoPor: string;
     private puestoResponsable: string;
     private sectorResponsable: string;
@@ -14,6 +15,7 @@ export class ErrorRanelagh {
         refDocumento: string,
         responsable: string,
         detectadoPor: string,
+        emitidoPor: string,
         puestoResponsable: string,
         sectorResponsable: string,
         comentarioError: string,
@@ -25,6 +27,7 @@ export class ErrorRanelagh {
         this.id = id ?? null;
         this.refDocumento = refDocumento;
         this.responsable = responsable;
+        this.emitidoPor = emitidoPor;
         this.detectadoPor = detectadoPor;
         this.puestoResponsable = puestoResponsable;
         this.sectorResponsable = sectorResponsable;
@@ -46,6 +49,13 @@ export class ErrorRanelagh {
     }
     public setRefDocumento(refDocumento: string): void {
         this.refDocumento = refDocumento;
+    }
+
+    public getEmitidoPor(): string {
+        return this.emitidoPor;
+    }
+    public setEmitidoPor(emitidoPor: string): void {
+        this.emitidoPor = emitidoPor;
     }
 
     public getResponsable(): string {

@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 	const fechaResolucion = document.getElementById("fechaResolucion");
 	const inputResponsable = document.getElementById("responsable");
 	const inputDetectadoPor = document.getElementById("detectadoPor");
-	const datalistResponsable = document.getElementById("responsables-list");
+	const inputEmitidoPor = document.getElementById("emitidoPor");
+	const datalistResponsable = document.getElementById("emitido_por-list");
 	const datalistDetectadoPor = document.getElementById("detectados-por-list");
 
 	const form = document.getElementById("formError");
@@ -31,15 +32,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 		personas.forEach(persona => {
 			const option = document.createElement("option");
 			option.value = persona.nombre;
-			// No se puede usar el ID directamente en el value de un datalist.
-			// La búsqueda por nombre es la forma correcta de hacerlo.
 			datalist.appendChild(option);
 		});
 	}
 
 	llenarDatalist(datalistResponsable, personas);
 	llenarDatalist(datalistDetectadoPor, personas);
-
+	llenarDatalist(datalistResponsable, personas);
 	inputResponsable.addEventListener("input", () => {
 		const nombreSeleccionado = inputResponsable.value;
 		const persona = personas.find(p => p.nombre === nombreSeleccionado);
@@ -58,11 +57,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 		// Obtener el nombre del input
 		const nombreResponsable = inputResponsable.value;
 		const nombreDetectadoPor = inputDetectadoPor.value;
+		const nombreEmitidoPor = inputEmitidoPor.value;
 
 		// Buscar las personas en el array para obtener sus IDs
 		const responsableObj = personas.find(p => p.nombre === nombreResponsable);
 		const detectadoPorObj = personas.find(p => p.nombre === nombreDetectadoPor);
-
+		const emitidoPorObj = personas.find(p => p.nombre === nombreEmitidoPor);
 		if (!validaciones()) {
 			return;
 		}
@@ -87,6 +87,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 				fechaRegistro: fechaHoy.value,
 				refDocumento: form.querySelector('#refDocumento').value,
 				responsable: responsableObj.id, // Enviamos el ID del responsable
+				emitidoPor: emitidoPorObj.id, // Enviamos el ID de quien emitió el error
 				puestoResponsable: inputPuesto.value,
 				sectorResponsable: inputSector.value,
 				fechaResolucion: fechaResolucion.value,

@@ -28,8 +28,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.set("views", path.join(__dirname, 'views'));
 
-
-const repo = new JsonRepositorio("json/personal.json");
 const repoPostgres = new RepoPostrgresError();
 const repoPersonal = new RepoPostgresPersonal();
 // Rutas
