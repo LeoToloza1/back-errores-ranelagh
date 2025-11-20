@@ -1,0 +1,6 @@
+PUERTO=
+WEBHOOK=
+DATABASE_URL=
+DATABASE_URL_DEV=
+WEBHOOK_STATUS=
+# WEBHOOK_TEST=https://n8n.leotoloza.com/webhook/errores-test

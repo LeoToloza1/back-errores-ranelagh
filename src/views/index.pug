@@ -1,0 +1,80 @@
+doctype html
+html
+    head
+        title Registro de Errores
+        link(rel="manifest" href="/manifest.json")
+        meta(name="theme-color" content="#1976d2")
+        link(rel="stylesheet" href="/css/styles.css")
+        script(src="/js/components/toast-component.js", defer)
+        script(src="/js/script.js" type="module", defer)
+        link(rel="shortcut icon" href="/img/error.png" type="image/x-icon")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    body
+        .logo-container
+            img(src="/img/logo_nuevo.png" alt="logo ranelagh")
+
+        main.titulo
+            h1 Formulario de carga de errores
+
+        .explicacion
+            p
+                | Se debe registrar en esta planilla, pérdidas económicas o de tiempos perdidos por: diseñar mal, vender mal, generar costos administrativos, financieros, de transporte, productos mal cotizados o con precios sin actualizar, roturas y desperdicios de materia prima, rotura y perdida de herramientas, etc; que sean evitables. También deberá registrar si pierde un cliente por una mala gestión suya o de otra área.
+            p.resaltado Se considera una FALTA GRAVE no registrar el 100x100 de los errores cometidos o perdidas económicas generadas.
+
+        section
+            form#formError(accept-charset="utf-8")
+
+                .form-group
+                    label(for="fechaRegistro") Fecha de Registro: 
+                    input(type="date" name="fechaRegistro" id="fechaRegistro", readonly)
+
+                .form-group
+                    label(for="refDocumento") Referencia al documento de origen 
+                    input(type="text" name="refDocumento" id="refDocumento")
+
+                //- Emisor del error
+                    .form-group
+                        label(for="emisorError") Emisor: 
+                        select(name="emisorError" id="emisorError")
+                            option(value="", disabled, selected) Selecciona un emisor
+                            option(value="Leonel") Leonel
+                            option(value="Laura") Laura
+                            option(value="Pedro") Pedro
+
+                .form-group
+                    label(for="responsable") Responsable del error: 
+                    input(type="text" name="responsable" id="responsable" list="responsables-list" placeholder="Escribe para buscar...")
+                    datalist#responsables-list
+
+                .form-group
+                    label(for="puestoResponsable") Puesto Responsable: 
+                    input(type="text" id="puestoResponsable" name="puestoResponsable", readonly)
+
+                .form-group
+                    label(for="sectorResponsable") Sector Responsable: 
+                    input(type="text" id="sectorResponsable" name="sectorResponsable", readonly)
+
+                .form-group
+                    label(for="fechaResolucion") Fecha de Resolución: 
+                    input(type="date" name="fechaResolucion" id="fechaResolucion")
+
+                //- Tipo de error (opcional)
+                    .form-group
+                        label(for="tipoError") Tipo de Error: 
+                        select(name="tipoError" id="tipoError")
+                            option(value="", disabled, selected) Selecciona un tipo de error
+                            option(value="falta de atencion") Falta de atención
+                            option(value="mala comunicación") Mala comunicación
+                            option(value="documentacion incompleta") Documentación incompleta
+
+                .form-group
+                    label(for="detectadoPor") Quien detectó el error: 
+                    input(type="text" name="detectadoPor" id="detectadoPor" list="detectados-por-list" placeholder="Escribe para buscar...")
+                    datalist#detectados-por-list
+
+                .form-group
+                    label(for="comentarioError") Detalles del error: 
+                    textarea(name="comentarioError" id="comentarioError" rows="3" placeholder="Describe brevemente el error")
+
+                button(type="submit") Registrar Error
+                #loader.hidden

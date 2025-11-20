@@ -1,0 +1,322 @@
+{
+  "personal": [
+    {
+      "id": 1,
+      "nombre": "Alberto Coelho",
+      "puesto": "GERENTE",
+      "sector": "GERENCIA"
+    },
+    {
+      "id": 2,
+      "nombre": "Alejo Gonzalez",
+      "puesto": "OPERARIO PUNZONADO",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 3,
+      "nombre": "Andres Pablo Vera",
+      "puesto": "INSTALADOR",
+      "sector": "INSTALACIONES"
+    },
+    {
+      "id": 4,
+      "nombre": "Carlos Garcia",
+      "puesto": "COORD. DE ADM. INSTALACIONES",
+      "sector": "INSTALACIONES"
+    },
+    {
+      "id": 5,
+      "nombre": "Carlos Villegas",
+      "puesto": "ASESOR COMERCIAL",
+      "sector": "COMERCIAL"
+    },
+    {
+      "id": 6,
+      "nombre": "Cesar Fabatia",
+      "puesto": "OPERARIO ARMADO",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 7,
+      "nombre": "Cesar Lloveras",
+      "puesto": "COOR. ARMADO",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 8,
+      "nombre": "Cosme Mansilla",
+      "puesto": "COORD. ADM FABRICA",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 9,
+      "nombre": "Cristian Bocco",
+      "puesto": "ASESOR COMERCIAL",
+      "sector": "COMERCIAL"
+    },
+    {
+      "id": 10,
+      "nombre": "Fabian Alvarez",
+      "puesto": "OPERARIO CORTE",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 11,
+      "nombre": "Fabian Medina",
+      "puesto": "INSTALADOR 1° LINEA",
+      "sector": "INSTALACIONES"
+    },
+    {
+      "id": 12,
+      "nombre": "Fernando Stebe",
+      "puesto": "COORD. GARANTIAS/INSTALACIONES 1° LINEA",
+      "sector": "INSTALACIONES"
+    },
+    {
+      "id": 13,
+      "nombre": "Franco Pereyra",
+      "puesto": "OPERARIO PUNZONADO",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 14,
+      "nombre": "Franco Torres",
+      "puesto": "OPERARIO ARMADO",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 15,
+      "nombre": "Gabriel Agra",
+      "puesto": "MANDO MEDIO",
+      "sector": "PLANIFICACION Y LOGISTICA"
+    },
+    {
+      "id": 16,
+      "nombre": "Gabriel Caminos",
+      "puesto": "OPERARIO ARMADO",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 17,
+      "nombre": "Guillermo Tulian",
+      "puesto": "OPERARIO PUNZONADO",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 18,
+      "nombre": "Gustavo Arias",
+      "puesto": "OPERARIO ARMADO",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 19,
+      "nombre": "Ignacio Machado",
+      "puesto": "OPERARIO CORTE",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 20,
+      "nombre": "Ivan Gallardo",
+      "puesto": "OPERARIO PUNZONADO",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 21,
+      "nombre": "Javier Orqueida",
+      "puesto": "OPERARIO VIDRIERIA",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 22,
+      "nombre": "Javier Silva",
+      "puesto": "MANDO MEDIO",
+      "sector": "PRODUCCION Y DESARROLLO"
+    },
+    {
+      "id": 23,
+      "nombre": "Jonathan Stauber",
+      "puesto": "INSTALADOR",
+      "sector": "INSTALACIONES"
+    },
+    {
+      "id": 24,
+      "nombre": "Jorge Pablo Delgado",
+      "puesto": "INSTALADOR 1° LINEA",
+      "sector": "INSTALACIONES"
+    },
+    {
+      "id": 25,
+      "nombre": "Jose Dolharts",
+      "puesto": "COORD. PUNZONADO",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 26,
+      "nombre": "Juan Pablo Coelho",
+      "puesto": "GERENTE",
+      "sector": "GERENCIA"
+    },
+    {
+      "id": 27,
+      "nombre": "Lautaro Martinez",
+      "puesto": "COORD. ARMADO ALUM., CONTROL Y DESPACHO 1° LINEA",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 28,
+      "nombre": "Leonel Figueroa",
+      "puesto": "OPERARIO ARMADO",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 29,
+      "nombre": "Leonel Toloza",
+      "puesto": "COORD. LOGISTICA INTERNA",
+      "sector": "DEPOSITO - LOGISTICA Y REPARTO"
+    },
+    {
+      "id": 30,
+      "nombre": "Lucas Oviedo",
+      "puesto": "OPERARIO CORTE",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 31,
+      "nombre": "Ludmila Fernandez",
+      "puesto": "TESORERIA",
+      "sector": "ADMINISTRACION"
+    },
+    {
+      "id": 32,
+      "nombre": "Luis Vallejos",
+      "puesto": "INSTALADOR",
+      "sector": "INSTALACIONES"
+    },
+    {
+      "id": 33,
+      "nombre": "Manuel Arias",
+      "puesto": "COORD. COMERCIAL",
+      "sector": "COMERCIAL"
+    },
+    {
+      "id": 34,
+      "nombre": "Matias Arias",
+      "puesto": "INSTALADOR",
+      "sector": "INSTALACIONES"
+    },
+    {
+      "id": 35,
+      "nombre": "Matias Kruchowski",
+      "puesto": "INSTALADOR PISOS",
+      "sector": "INSTALACIONES"
+    },
+    {
+      "id": 36,
+      "nombre": "Maximiliano Figueroa",
+      "puesto": "OPERARIO CORTE",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 37,
+      "nombre": "Miguel Paulik",
+      "puesto": "REPARTO",
+      "sector": "LOGISTICA"
+    },
+    {
+      "id": 38,
+      "nombre": "Noelia Coelho",
+      "puesto": "COMPUTOS",
+      "sector": "ADMINISTRACION"
+    },
+    {
+      "id": 39,
+      "nombre": "Pablo Pardo",
+      "puesto": "ALMACEN Y LOGISTICA",
+      "sector": "FABRICA"
+    },
+    {
+      "id": 40,
+      "nombre": "Rodrigo Damele",
+      "puesto": "COORD. COMERCIAL",
+      "sector": "COMERCIAL"
+    },
+    {
+      "id": 41,
+      "nombre": "Roque Cabrera",
+      "puesto": "ASESOR COMERCIAL",
+      "sector": "COMERCIAL"
+    },
+    {
+      "id": 42,
+      "nombre": "Stella Villegas",
+      "puesto": "RECURSOS HUMANOS",
+      "sector": "ADMINISTRACION"
+    },
+    {
+      "id": 43,
+      "nombre": "Claudio Becerra",
+      "puesto": "PROVEEDOR",
+      "sector": "INSTALACIONES"
+    },
+    {
+      "id": 44,
+      "nombre": "Ezequiel Sala",
+      "puesto": "INSTALADOR",
+      "sector": "INSTALACIONES"
+    },
+    {
+      "id": 45,
+      "nombre": "Santiago Figueroa",
+      "puesto": "INSTALADOR",
+      "sector": "INSTALACIONES"
+    },
+    {
+      "id": 46,
+      "nombre": "Yago Gaveglio",
+      "puesto": "INSTALADOR",
+      "sector": "INSTALACIONES"
+    },
+    {
+      "id": 47,
+      "nombre": "Lucas ",
+      "puesto": "INSTALADOR",
+      "sector": "INSTALACIONES"
+    },
+    {
+      "id": 48,
+      "nombre": "Sebastian ",
+      "puesto": "INSTALADOR",
+      "sector": "INSTALACIONES"
+    },
+    {
+      "id": 49,
+      "nombre": "Sebastian Lo Zurdo",
+      "puesto": "ASESOR COMERCIAL",
+      "sector": "COMERCIAL"
+    },
+    {
+      "id": 50,
+      "nombre": "Mauricio Barrera",
+      "puesto": "REPARTO",
+      "sector": "LOGISTICA"
+    },
+    {
+      "id": 51,
+      "nombre": "Belen ",
+      "puesto": "TESORERIA",
+      "sector": "ADMINISTRACION"
+    },
+    {
+      "id": 52,
+      "nombre": "Maximiliano ",
+      "puesto": "INSTALADOR",
+      "sector": "INSTALACIONES"
+    },
+    {
+      "id": 53,
+      "nombre": "Franco Stebe",
+      "puesto": "INSTALADOR TEMPORAL",
+      "sector": "INSTALACIONES"
+    }
+  ]
+}

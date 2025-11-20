@@ -1,0 +1,160 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    padding: 0px;
+    margin: 0px;
+}
+
+.logo-container { /* Nuevo estilo para el contenedor del logo */
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.logo-container img {
+    max-width: 200px; /* Ajusta el tamaño máximo del logo */
+    height: auto;
+}
+
+.titulo {
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 0 15px; /* Añadido padding para evitar que el título se pegue a los bordes en móviles */
+    text-align: center; /* Asegura que el texto se centre si hay salto de línea */
+}
+
+.explicacion {
+    color: #333;
+    text-align: center;
+}
+
+.explicacion p {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.1em;
+    padding: 0 15px;
+}
+.resaltado {
+    font-weight: bold;
+}
+
+#formError {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: auto;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%; /* Hacemos el botón de ancho completo en móviles */
+    max-width: 200px; /* Limitamos el ancho en pantallas grandes */
+    display: block; /* Para centrarlo con margin: auto */
+    margin: 20px auto 0 auto; /* Centramos el botón y añadimos margen superior */
+}
+
+button:hover {
+    background-color: #4cae4c;
+}
+
+#comentarioError{
+    resize: vertical;
+    min-height: 80px;
+    max-height: 150px;
+}
+
+/* --- Media Queries para responsividad --- */
+@media (max-width: 768px) { /* Estilos para pantallas más pequeñas (tablets y móviles) */
+    #formError {
+        max-width: 90%; /* El formulario ocupará el 90% del ancho en pantallas pequeñas */
+        margin: 20px auto; /* Añadimos un poco de margen arriba y abajo */
+        padding: 15px;
+    }
+
+    .explicacion p, .titulo h1 {
+        font-size: 1em; /* Reducimos el tamaño de la fuente para mejor lectura */
+    }
+
+    .titulo {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 480px) { /* Estilos específicos para teléfonos móviles */
+    .titulo h1 {
+        font-size: 1.2em; /* Reducimos aún más el tamaño del título principal */
+    }
+
+    button {
+        padding: 12px 10px; /* Ajustamos el padding del botón */
+        font-size: 1em;
+    }
+}
+
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    display: flex; /* Para centrar el contenido */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegura que esté por encima de todo */
+}
+
+#loader.hidden {
+    display: none; /* Clase para ocultar el loader */
+}
+
+/* Opcional: Estilo para el spinner del loader */
+#loader::after {
+    content: '';
+    width: 50px;
+    height: 50px;
+    border: 5px solid #fff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite; /* Animación de giro */
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

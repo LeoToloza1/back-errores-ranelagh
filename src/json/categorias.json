@@ -1,0 +1,112 @@
+{
+    "categorias": [
+        {
+            "nombre": "CONFECCION Y TRASLADO DE DOCUMENTACION INCOMPLETA",
+            "descripcion": "Falta de información clave en los documentos de ventas, fabricación o logística. Esto incluye, pero no se limita a, la ausencia de planos, especificaciones de productos, detalles del cliente o de la entrega, lo que impide la correcta ejecución de un proceso o genera demoras."
+        },
+        {
+            "nombre": "CONFECCION Y TRASLADO DE DOCUMENTACION ERRONEA",
+            "descripcion": "La información en los documentos es incorrecta o incoherente. Por ejemplo, medidas erróneas en un plano, precios equivocados en una cotización o datos de contacto desactualizados, lo que puede llevar a errores en la producción o al envío a una dirección incorrecta."
+        },
+        {
+            "nombre": "ENTREGA DE DOCUMENTACION FUERA DE TERMINO",
+            "descripcion": "Los documentos necesarios para un proceso no se entregan a tiempo, causando retrasos. Esto puede ser un retraso en el envío de una orden de fabricación al taller o la entrega tardía de la factura al cliente, lo que afecta la planificación y los plazos."
+        },
+        {
+            "nombre": "DAR INFOMRACION ERRONEA AL CLIENTE",
+            "descripcion": "Se le proporciona al cliente información incorrecta sobre el producto, los plazos de entrega, los precios o las condiciones de pago. Esto genera expectativas erróneas y puede resultar en reclamos, pérdida de confianza y cancelaciones."
+        },
+        {
+            "nombre": "NO ENTREGAR DOCUMENTACION COMPLETA AL CLIENTE",
+            "descripcion": "Falta de documentos esenciales para el cliente, como facturas, manuales de usuario, garantías o certificados de calidad. Esto puede dificultar la postventa o la instalación y generar insatisfacción."
+        },
+        {
+            "nombre": "NO CHEQUEA AGENDAS DE FABRICACIONES E INSTALACIONES",
+            "descripcion": "No se verifica la disponibilidad de tiempo en los cronogramas de producción o de instalación antes de comprometerse con un cliente. Esto lleva a conflictos de agenda, retrasos en los plazos prometidos y una mala gestión de recursos."
+        },
+        {
+            "nombre": "NO UTILIZA SISTEMA DE STOCK DE PRODUCTOS",
+            "descripcion": "No se registra el uso o la existencia de productos en el sistema de inventario. Esto provoca un desfase entre el stock físico y el digital, lo que puede resultar en la venta de productos que no están disponibles o en una gestión ineficiente del almacén."
+        },
+        {
+            "nombre": "NO RESPETA ACUERDOS COMERCIALES",
+            "descripcion": "Incumplimiento de las condiciones pactadas con el cliente, como descuentos, plazos de pago, formas de entrega o especificaciones del producto. Esto daña la relación comercial y puede tener consecuencias legales."
+        },
+        {
+            "nombre": "COBRANZA MAL HECHA",
+            "descripcion": "Se cometen errores en el proceso de cobro, como facturar un monto incorrecto, aplicar mal los descuentos o no registrar un pago. Esto genera problemas contables y confusión para el cliente."
+        },
+        {
+            "nombre": "SIN GESTION DE CROBRANZAS PENDIENTES",
+            "descripcion": "No se realiza un seguimiento activo y oportuno de las facturas no pagadas. Esto resulta en deudas pendientes que pueden afectar negativamente el flujo de caja de la empresa."
+        },
+        {
+            "nombre": "ENTREGA DE PRODUCTOS FUERA DEL ACUERDO",
+            "descripcion": "El producto entregado no coincide con el acordado con el cliente en cuanto a modelo, color, cantidad o especificaciones. Esto obliga a realizar un cambio, generando costos adicionales y retrasos."
+        },
+        {
+            "nombre": "ENTREGAR PRODUCTOS EN MAL ESTADO",
+            "descripcion": "Los productos son entregados con defectos o daños, ya sea por fallas en la fabricación, un embalaje inadecuado o un manejo incorrecto durante el transporte. Esto genera reclamos y la necesidad de reemplazo."
+        },
+        {
+            "nombre": "LOGISTICA MAL ORGANIZADA EN LA ENTREGA",
+            "descripcion": "El proceso de envío y entrega no está planificado de manera eficiente. Esto puede incluir rutas ineficientes, múltiples viajes innecesarios o una falta de coordinación entre el almacén y el transporte."
+        },
+        {
+            "nombre": "NO REALIZA INVENTARIOS DE PRODUCTOS",
+            "descripcion": "Falta de conteos y registros periódicos del stock de productos. Esto conduce a un desconocimiento del inventario real, lo que puede causar escasez de materiales o exceso de existencias."
+        },
+        {
+            "nombre": "COMPRA ERRONEA",
+            "descripcion": "Se adquieren materiales o productos incorrectos, ya sea por especificaciones equivocadas, cantidades erróneas o compra a un proveedor no aprobado. Esto genera pérdidas económicas y retrasos."
+        },
+        {
+            "nombre": "FALTA DE SEGUIMIENTO DE MATERIALES EN PROVEEDORES",
+            "descripcion": "No se monitorea el estado de los pedidos a los proveedores. Esto puede resultar en la no detección de retrasos en las entregas, afectando la planificación de la producción o la venta."
+        },
+        {
+            "nombre": "ROTURA DE VIDRIO",
+            "descripcion": "Se produce la rotura de un vidrio en cualquier etapa del proceso, ya sea en la fabricación, el embalaje, el transporte o la instalación. Esto requiere un reemplazo urgente y genera costos y demoras."
+        },
+        {
+            "nombre": "ROTURA DE TAPAJUNTAS",
+            "descripcion": "Un tapajuntas (componente de terminación o sellado) se rompe durante su manipulación o instalación. Es un error específico que afecta la calidad del acabado del producto."
+        },
+        {
+            "nombre": "PERFIL MAL CORTADO",
+            "descripcion": "Un perfil (por ejemplo, de aluminio) se corta con una medida incorrecta o en un ángulo equivocado, lo que lo hace inservible para el ensamble y requiere su descarte."
+        },
+        {
+            "nombre": "PERFIL MAL PUNZONADO",
+            "descripcion": "Se perfora un perfil en la ubicación incorrecta o con la herramienta equivocada. Este error puede hacer que el perfil no encaje con otros componentes o que quede estructuralmente debilitado."
+        },
+        {
+            "nombre": "PERFIL GOLPEADO Y DAÑADO EN PROCESO",
+            "descripcion": "Un perfil sufre un golpe o un daño físico durante la fabricación, el transporte o la manipulación en el taller. Esto afecta su apariencia y funcionalidad."
+        },
+        {
+            "nombre": "MAL CONFECCIONADA LA TOMA DE MEDIDAS",
+            "descripcion": "Se toman medidas incorrectas en el lugar de la instalación, lo que lleva a la fabricación de un producto que no encajará en el espacio destinado. Es un error crítico que causa la necesidad de fabricar de nuevo."
+        },
+        {
+            "nombre": "ORDEN DE ACOPIO Y FABRICACION MAL REALIZADA",
+            "descripcion": "La lista de materiales o las instrucciones de fabricación contienen errores. Esto resulta en la producción de un artículo incorrecto o en la falta de materiales esenciales."
+        },
+        {
+            "nombre": "MAL CONTROL DE CALIDAD",
+            "descripcion": "No se detectan errores o defectos en el producto durante la inspección final. El producto defectuoso pasa el control y es enviado al cliente, generando un reclamo posterior."
+        },
+        {
+            "nombre": "OLVIDO DE MATERIALES Y/O HERRAMIENTAS PARA INSTALAR",
+            "descripcion": "El equipo de instalación llega al lugar de trabajo sin todos los materiales o herramientas necesarios. Esto detiene el proceso y causa una pérdida de tiempo."
+        },
+        {
+            "nombre": "COMUNICACIÓN ERRONEA",
+            "descripcion": "La información no se transmite de forma correcta entre los miembros del equipo o entre departamentos. Esto puede ser una falta de comunicación sobre un cambio en un pedido o una especificación."
+        },
+        {
+            "nombre": "NO LEE EL PROCEDIMIENTO - FUERA DE LAS NORMAS",
+            "descripcion": "Un empleado no sigue las instrucciones estándar de trabajo o los protocolos de seguridad. Esto puede llevar a errores, accidentes o la producción de un producto que no cumple con los estándares de calidad."
+        }
+    ]
+}
