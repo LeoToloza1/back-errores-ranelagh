@@ -5,11 +5,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 	const inputPuesto = document.getElementById("puestoResponsable");
 	const inputSector = document.getElementById("sectorResponsable");
 	const fechaResolucion = document.getElementById("fechaResolucion");
+
 	const inputResponsable = document.getElementById("responsable");
 	const inputDetectadoPor = document.getElementById("detectadoPor");
 	const inputEmitidoPor = document.getElementById("emitidoPor");
-	const datalistResponsable = document.getElementById("emitido_por-list");
+
+	const datalistResponsable = document.getElementById("responsables-list");
+	const datalistEmitidoPor = document.getElementById("emitido_por-list");
 	const datalistDetectadoPor = document.getElementById("detectados-por-list");
+
 
 	const form = document.getElementById("formError");
 	const submitButton = form.querySelector('button[type="submit"]');
@@ -37,8 +41,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 	}
 
 	llenarDatalist(datalistResponsable, personas);
+	llenarDatalist(datalistEmitidoPor, personas);
 	llenarDatalist(datalistDetectadoPor, personas);
-	llenarDatalist(datalistResponsable, personas);
 	inputResponsable.addEventListener("input", () => {
 		const nombreSeleccionado = inputResponsable.value;
 		const persona = personas.find(p => p.nombre === nombreSeleccionado);

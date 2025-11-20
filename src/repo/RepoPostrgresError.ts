@@ -42,8 +42,8 @@ export class RepoPostrgresError implements IRepoBase<ErrorRanelagh> {
     async create(item: ErrorRanelagh): Promise<ErrorRanelagh> {
         const res = await this.pool.query(
             `INSERT INTO errores (
-            refdocumento, responsable, detectadopor, puestoresponsable, sectorresponsable, comentarioerror, fecharegistro, fecharesolucion
-        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+            refdocumento, responsable, detectadopor, puestoresponsable, sectorresponsable, comentarioerror, fecharegistro, fecharesolucion,emitidopor
+        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
         RETURNING *`,
             [
                 item.getRefDocumento(),
@@ -53,7 +53,8 @@ export class RepoPostrgresError implements IRepoBase<ErrorRanelagh> {
                 item.getSectorResponsable(),
                 item.getComentarioError(),
                 item.getFechaRegistro(),
-                item.getFechaResolucion()
+                item.getFechaResolucion(),
+                item.getEmitidoPor()
             ]
         );
         return this.mapRowToError(res.rows[0]);
@@ -69,8 +70,9 @@ export class RepoPostrgresError implements IRepoBase<ErrorRanelagh> {
                 sectorResponsable = $5,
                 comentarioError = $6,
                 fechaRegistro = $7,
-                fechaResolucion = $8
-            WHERE id = $9 RETURNING *`,
+                fechaResolucion = $8,
+                emitidoPor = $9
+            WHERE id = $10 RETURNING *`,
             [
                 item.getRefDocumento(),
                 item.getResponsable(),
@@ -80,6 +82,7 @@ export class RepoPostrgresError implements IRepoBase<ErrorRanelagh> {
                 item.getComentarioError(),
                 item.getFechaRegistro(),
                 item.getFechaResolucion(),
+                item.getEmitidoPor(),
                 item.getId()
             ]
         );
@@ -102,7 +105,8 @@ export class RepoPostrgresError implements IRepoBase<ErrorRanelagh> {
             row.comentarioerror,
             row.fecharegistro,
             row.fecharesolucion,
-            row.id,
+            row.emitidopor,
+            row.id
         );
     }
 }

@@ -2,7 +2,6 @@ export class ErrorRanelagh {
     private id: number | null;
     private refDocumento: string;
     private responsable: string;
-    private emitidoPor: string;
     private detectadoPor: string;
     private puestoResponsable: string;
     private sectorResponsable: string;
@@ -10,17 +9,18 @@ export class ErrorRanelagh {
     private fechaRegistro: string;
     private fechaResolucion: string;
     private comparado: boolean;
+    private emitidoPor: string;
 
     constructor(
         refDocumento: string,
         responsable: string,
         detectadoPor: string,
-        emitidoPor: string,
         puestoResponsable: string,
         sectorResponsable: string,
         comentarioError: string,
         fechaRegistro: string,
         fechaResolucion: string,
+        emitidoPor: string,
         id?: number,
         comparado?: boolean
     ) {

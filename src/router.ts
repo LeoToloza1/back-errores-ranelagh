@@ -54,6 +54,7 @@ export class ErroresRouter {
         this.router.post("/registrar-error", async (req: Request, res: Response) => {
             try {
                 const datosError = req.body
+
                 const reesponsableId = parseInt(datosError.responsable);
                 const responsable = await this.repo.get(reesponsableId); //enviar el nombre, el sector y el puesto
                 const detectadoPorId = parseInt(datosError.detectadoPor);
@@ -110,13 +111,13 @@ export class ErroresRouter {
                 const errorDB = new ErrorRanelagh(
                     enviarAN8N.refDocumento,
                     enviarAN8N.responsable,
-                    enviarAN8N.emitidoPor || "no identificado",
                     enviarAN8N.detectadoPor || "no identificado",
                     enviarAN8N.puestoResponsable,
                     enviarAN8N.sectorResponsable,
                     enviarAN8N.comentarioError,
                     enviarAN8N.fechaRegistro,
                     enviarAN8N.fechaResolucion,
+                    enviarAN8N.emitidoPor || "no identificado"
                 );
                 const errorGuardado = await this.posgres.create(errorDB);
                 enviarAN8N.id = errorGuardado.getId();
