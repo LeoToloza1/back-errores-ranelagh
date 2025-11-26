@@ -1,3 +1,5 @@
+import { IErrorRanelagh } from "./IErrorRanelagh.js";
+
 export class ErrorRanelagh {
     private id: number | null;
     private refDocumento: string;
@@ -11,30 +13,18 @@ export class ErrorRanelagh {
     private comparado: boolean;
     private emitidoPor: string;
 
-    constructor(
-        refDocumento: string,
-        responsable: string,
-        detectadoPor: string,
-        puestoResponsable: string,
-        sectorResponsable: string,
-        comentarioError: string,
-        fechaRegistro: string,
-        fechaResolucion: string,
-        emitidoPor: string,
-        id?: number,
-        comparado?: boolean
-    ) {
-        this.id = id ?? null;
-        this.refDocumento = refDocumento;
-        this.responsable = responsable;
-        this.emitidoPor = emitidoPor;
-        this.detectadoPor = detectadoPor;
-        this.puestoResponsable = puestoResponsable;
-        this.sectorResponsable = sectorResponsable;
-        this.comentarioError = comentarioError;
-        this.fechaRegistro = fechaRegistro;
-        this.fechaResolucion = fechaResolucion;
-        this.comparado = comparado ?? false;
+    constructor(props: IErrorRanelagh) {
+        this.id = props.id ?? null;
+        this.refDocumento = props.refDocumento;
+        this.responsable = props.responsable;
+        this.detectadoPor = props.detectadoPor;
+        this.puestoResponsable = props.puestoResponsable;
+        this.sectorResponsable = props.sectorResponsable;
+        this.comentarioError = props.comentarioError;
+        this.fechaRegistro = props.fechaRegistro;
+        this.fechaResolucion = props.fechaResolucion;
+        this.emitidoPor = props.emitidoPor;
+        this.comparado = props.comparado ?? false;
     }
 
     public getId(): number | null {
@@ -140,7 +130,8 @@ export class ErrorRanelagh {
             comentarioError: this.comentarioError,
             fechaRegistro: this.fechaRegistro,
             fechaResolucion: this.fechaResolucion,
-            comparado: this.comparado
+            comparado: this.comparado,
+            emitidoPor: this.emitidoPor
 
         };
     }

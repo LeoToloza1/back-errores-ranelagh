@@ -108,17 +108,19 @@ export class ErroresRouter {
                     id: null,
                     comparado: false
                 };
-                const errorDB = new ErrorRanelagh(
-                    enviarAN8N.refDocumento,
-                    enviarAN8N.responsable,
-                    enviarAN8N.detectadoPor || "no identificado",
-                    enviarAN8N.puestoResponsable,
-                    enviarAN8N.sectorResponsable,
-                    enviarAN8N.comentarioError,
-                    enviarAN8N.fechaRegistro,
-                    enviarAN8N.fechaResolucion,
-                    enviarAN8N.emitidoPor || "no identificado"
-                );
+                const errorDB = new ErrorRanelagh({
+                    refDocumento: enviarAN8N.refDocumento,
+                    responsable: enviarAN8N.responsable,
+                    detectadoPor: enviarAN8N.detectadoPor || "no identificado",
+                    puestoResponsable: enviarAN8N.puestoResponsable,
+                    sectorResponsable: enviarAN8N.sectorResponsable,
+                    comentarioError: enviarAN8N.comentarioError, // Ahora sí entra en el campo correcto
+                    fechaRegistro: enviarAN8N.fechaRegistro,
+                    fechaResolucion: enviarAN8N.fechaResolucion,
+                    emitidoPor: enviarAN8N.emitidoPor || "no identificado",
+                    id: null,
+                    comparado: false
+                });
                 const errorGuardado = await this.posgres.create(errorDB);
                 enviarAN8N.id = errorGuardado.getId();
                 enviarAN8N.comparado = errorGuardado.getComparado();

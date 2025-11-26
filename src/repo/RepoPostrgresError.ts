@@ -96,17 +96,18 @@ export class RepoPostrgresError implements IRepoBase<ErrorRanelagh> {
 
 
     private mapRowToError(row: any): ErrorRanelagh {
-        return new ErrorRanelagh(
-            row.refdocumento,
-            row.responsable,
-            row.detectadopor,
-            row.puestoresponsable,
-            row.sectorresponsable,
-            row.comentarioerror,
-            row.fecharegistro,
-            row.fecharesolucion,
-            row.emitidopor,
-            row.id
-        );
+        return new ErrorRanelagh({
+            refDocumento: row.refdocumento,
+            responsable: row.responsable,
+            detectadoPor: row.detectadopor,
+            puestoResponsable: row.puestoresponsable,
+            sectorResponsable: row.sectorresponsable,
+            comentarioError: row.comentarioerror,
+            fechaRegistro: row.fecharegistro,
+            fechaResolucion: row.fecharesolucion,
+            emitidoPor: row.emitidopor,
+            id: row.id,
+            comparado: row.comparado
+        });
     }
 }
