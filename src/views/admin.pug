@@ -1,0 +1,85 @@
+doctype html
+html(lang="es")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title Panel de Admin - Errores Ranelagh
+        link(rel="stylesheet" href="/css/styles.css")
+    body
+        header
+            h1 Panel de Administración
+            nav
+                a(href="/logout") Cerrar Sesión
+        main
+            section
+                h2 Errores Cargados
+                form(action="/admin" method="GET")
+                    label(for="responsable") Filtrar por Responsable:
+                    input(type="text" id="responsable" name="responsable", value=responsable || "")
+                    label(for="fechaDesde") Fecha Desde:
+                    input(type="date" id="fechaDesde" name="fechaDesde", value=fechaDesde || "")
+                    label(for="fechaHasta") Fecha Hasta:
+                    input(type="date" id="fechaHasta" name="fechaHasta", value=fechaHasta || "")
+                    button(type="submit") Filtrar
+                    a(href="/admin") Limpiar Filtros
+                if errors && errors.length > 0
+                    table
+                        thead
+                            tr
+                                th ID
+                                th Ref. Documento
+                                th Responsable
+                                th Detectado Por
+                                th Emitido Por
+                                th Comentario
+                                th Fecha Registro
+                                th Fecha Resolución
+                                th Comparado
+                        tbody
+                            each error in errors
+                                tr
+                                    td= error.id
+                                    td= error.refDocumento
+                                    td= error.responsable
+                                    td= error.detectadoPor
+                                    td= error.emitidoPor
+                                    td= error.comentarioError
+                                    td= error.fechaRegistro
+                                    td= error.fechaResolucion
+                                    td= error.comparado ? 'Sí' : 'No'
+                else
+                    p No hay errores cargados o que coincidan con los filtros.
+            section
+                h2 Gestión de Personal
+                if personal && personal.length > 0
+                    table
+                        thead
+                            tr
+                                th ID
+                                th Nombre
+                                th Puesto
+                                th Sector
+                                th Acciones
+                        tbody
+                            each p in personal
+                                tr
+                                    td= p.id
+                                    td= p.nombre
+                                    td= p.puesto
+                                    td= p.sector
+                                    td
+                                        form(action=`/admin/personal/${p.id}/delete`, method="POST" style="display:inline;")
+                                            button(type="submit" onclick="return confirm('¿Eliminar?')") Eliminar
+                else
+                    p No hay personal registrado.
+                h3 Agregar Nuevo Personal
+                form(action="/admin/personal" method="POST")
+                    label(for="nombre") Nombre:
+                    input(type="text" id="nombre" name="nombre", required)
+                    label(for="puesto") Puesto:
+                    input(type="text" id="puesto" name="puesto", required)
+                    label(for="sector") Sector:
+                    input(type="text" id="sector" name="sector", required)
+                    button(type="submit") Agregar
+        footer
+            p &copy; 2025 Sistema de Errores Ranelagh

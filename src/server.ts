@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import morgan from "morgan";
-import { ErroresRouter } from "./router.js";
+import { ErroresRouter } from "./Router/router.js";
 import cors from "cors";
 import { JsonRepositorio } from "./repo/jsonRepositorio.js";
 import path from "path";
@@ -9,6 +9,7 @@ import { RepoPostrgresError } from "./repo/RepoPostrgresError.js";
 
 import dotenv from "dotenv";
 import { RepoPostgresPersonal } from "./repo/RepoPostgresPersonal.js";
+import { ViewsRouter } from "./Router/viewsRouter.js";
 dotenv.config();
 
 const app = express();
@@ -31,8 +32,8 @@ app.set("views", path.join(__dirname, 'views'));
 const repoPostgres = new RepoPostrgresError();
 const repoPersonal = new RepoPostgresPersonal();
 // Rutas
+app.use("/", new ViewsRouter(repoPersonal, repoPostgres).router);
 app.use("/api", new ErroresRouter(repoPersonal, repoPostgres).router);
-app.get("/", (_req: Request, res: Response) => res.render("index"));
 
 // Servidor
 app.listen(puerto, () => {
