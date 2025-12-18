@@ -240,6 +240,8 @@ export class ErroresRouter {
             }
         });
     }
-
+getRouter(): Router {
+        return this.router;
+    }
 
 }

@@ -1,57 +1,82 @@
 import { Request, Response } from "express";
-import { RepoPostgresUsuario } from "../repo/RepoPostgresUsuario.js";
-import { Usuario } from "../model/Usuario.js";
+import { LoginService } from "../services/LoginService.js";
+import { Personal } from "../model/Personal.js";
 
 declare module 'express-session' {
     interface SessionData {
-        user?: Usuario;
+        user?: {
+            id: number;
+            username: string;
+            personal: Personal;
+        };
     }
 }
 
 export class LoginController {
-    private repoUsuario: RepoPostgresUsuario;
-
-    constructor(repoUsuario: RepoPostgresUsuario) {
-        this.repoUsuario = repoUsuario;
-    }
+   
+    constructor(private readonly loginService: LoginService) {}
 
     async login(req: Request, res: Response): Promise<void> {
         const { username, password } = req.body;
+
         if (!username || !password) {
-            res.status(400).json({ error: "Username and password are required" });
+            res.status(400).json({ error: "Username y contraseña son requeridos" });
             return;
         }
 
         try {
-            const user = await this.repoUsuario.authenticate(username, password);
+            const user = await this.loginService.login(username, password);
+
             if (user) {
-                req.session.user = user;
-                res.status(200).json({ message: "Login successful", user: user.toJSON() });
+                req.session.user = {
+                    id: user.getId(),
+                    username: user.getUsername(),
+                    personal: user.getPersonal()
+                };
+
+                res.status(200).json({ 
+                    message: "Login correcto", 
+                    user: req.session.user 
+                });
             } else {
-                res.status(401).json({ error: "Invalid credentials" });
+                res.status(401).json({ error: "Credenciales incorrectas" });
             }
         } catch (error) {
             console.error("Login error:", error);
-            res.status(500).json({ error: "Internal server error" });
+            res.status(500).json({ error: "Error al iniciar sesión" });
         }
     }
 
     async logout(req: Request, res: Response): Promise<void> {
         req.session.destroy((err) => {
             if (err) {
-                console.error("Logout error:", err);
-                res.status(500).json({ error: "Logout failed" });
+                res.status(500).json({ error: "Error al cerrar sesión" });
             } else {
-                res.status(200).json({ message: "Logout successful" });
+                res.clearCookie('connect.sid'); 
+                res.status(200).json({ message: "Sesión cerrada" });
             }
         });
     }
 
-    getCurrentUser(req: Request, res: Response): void {
-        if (req.session.user) {
-            res.status(200).json({ user: req.session.user.toJSON() });
-        } else {
-            res.status(401).json({ error: "Not authenticated" });
+    async cambiarPassword(req: Request, res: Response): Promise<void> {
+        const { oldPassword, newPassword } = req.body;
+        const sessionUser = req.session.user!;
+
+        if (!oldPassword || !newPassword) {
+            res.status(400).json({ error: "La contraseña antigua y la nueva son requeridas" });
+            return;
         }
+
+        try {
+            await this.loginService.cambiarPassword(sessionUser.id, oldPassword, newPassword);
+            res.status(200).json({ message: "Contraseña cambiada exitosamente" });
+        } catch (error: any) {
+            const status = error.message === "Contraseña antigua incorrecta" ? 401 : 500;
+            res.status(status).json({ error: error.message });
+        }
+    }
+
+    getCurrentUser(req: Request, res: Response): void {
+        res.status(200).json({ user: req.session.user });
     }
 }

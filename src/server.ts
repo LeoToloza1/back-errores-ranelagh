@@ -1,58 +1,103 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import morgan from "morgan";
-import { ErroresRouter } from "./Router/router.js";
 import cors from "cors";
-import { JsonRepositorio } from "./repo/jsonRepositorio.js";
 import path from "path";
+import dotenv from "dotenv";
+import session from "express-session";
 import { fileURLToPath } from 'url';
+
+// Repositorios
+import { RepoPostgresUsuario } from "./repo/RepoPostgresUsuario.js";
+import { RepoPostgresPersonal } from "./repo/RepoPostgresPersonal.js";
 import { RepoPostrgresError } from "./repo/RepoPostrgresError.js";
 
-import dotenv from "dotenv";
-import { RepoPostgresPersonal } from "./repo/RepoPostgresPersonal.js";
-import { ViewsRouter } from "./Router/viewsRouter.js";
-import session from "express-session";
-import { RepoPostgresUsuario } from "./repo/RepoPostgresUsuario.js";
-import { LoginController } from "./controller/LoginController.js";
-dotenv.config();
+// Servicios
+import { AuthService } from "./services/AuthService.js";
+import { LoginService } from "./services/LoginService.js";
 
+// Controladores
+import { LoginController } from "./controller/LoginController.js";
+
+// Routers
+import { LoginRouter } from "./Router/loginRouter.js";
+import { ErroresRouter } from "./Router/router.js";
+
+// Configuración inicial
+dotenv.config();
 const app = express();
 const puerto = process.env.PUERTO || 3000;
 
-// Middlewares
-app.use(morgan("dev"));
-app.use(express.json());
-app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
-
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'default_secret', // Cambia esto en producción
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false } // Cambia a true si usas HTTPS
-}));
-
-app.use(cors());
-
-
-app.set("view engine", "pug");
+// --- CONFIGURACIÓN DE RUTAS Y ARCHIVOS ---
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+app.set("view engine", "pug");
 app.set("views", path.join(__dirname, 'views'));
 
-const repoPostgres = new RepoPostrgresError();
-const repoPersonal = new RepoPostgresPersonal();
+// --- MIDDLEWARES GLOBALES ---
+app.use(morgan("dev"));
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+
+// Configuración de Sesión
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'clave_secreta_muy_segura',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { 
+        secure: false, // Cambiar a true si usas HTTPS
+        httpOnly: true,
+        maxAge: 3600000 // 1 hora de sesión
+    }
+}));
+
+// --- INYECCIÓN DE DEPENDENCIAS (EL "WIRING") ---
+
+// 1. Capa de Datos (Repositorios)
 const repoUsuario = new RepoPostgresUsuario();
-const loginController = new LoginController(repoUsuario);
-// Rutas
-app.use("/", new ViewsRouter(repoPersonal, repoPostgres).router);
-app.use("/api", new ErroresRouter(repoPersonal, repoPostgres).router);
+const repoPersonal = new RepoPostgresPersonal();
+const repoErrores = new RepoPostrgresError();
 
-// Rutas de autenticación
-app.post("/api/login", (req, res) => loginController.login(req, res));
-app.post("/api/logout", (req, res) => loginController.logout(req, res));
-app.get("/api/current-user", (req, res) => loginController.getCurrentUser(req, res));
+// 2. Capa de Negocio (Servicios)
+const authService = new AuthService();
+const loginService = new LoginService(repoUsuario, authService);
 
-// Servidor
+// 3. Capa de Presentación (Controladores)
+const loginController = new LoginController(loginService);
+// Nota: Si ErroresRouter necesita un controlador, instáncialo aquí también.
+
+// 4. Orquestación de Rutas (Routers)
+const loginRouter = new LoginRouter(loginController);
+const erroresRouter = new ErroresRouter(repoErrores); // O el controlador correspondiente
+
+// --- DEFINICIÓN DE RUTAS ---
+
+// Montamos el router de autenticación (Login, Logout, Me, Cambiar Pass)
+app.use("/api/auth", loginRouter.getRouter());
+
+// Montamos el router de errores
+app.use("/api/errores", erroresRouter.getRouter());
+
+// Ruta para las vistas (Pug)
+app.get("/", (req, res) => {
+    res.render("index", { title: "Gestión de Errores" });
+});
+app.get("/login", (req, res) => {
+    res.render("login", { title: "Gestión de Errores" });
+});
+
+// Manejo de rutas no encontradas (404)
+app.use((req, res) => {
+    res.status(404).json({ error: "Ruta no encontrada" });
+});
+
+// --- LANZAMIENTO DEL SERVIDOR ---
 app.listen(puerto, () => {
-    console.log(`Servidor corriendo en http://localhost:${puerto}`);
+    console.log(`
+    🚀 Servidor corriendo exitosamente
+    Address: http://localhost:${puerto}
+    Environment: ${process.env.NODE_ENV || 'development'}
+    `);
 });
