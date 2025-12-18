@@ -9,7 +9,7 @@ html(lang="es")
         header
             h1 Panel de Administración
             nav
-                a(href="/logout") Cerrar Sesión
+                button(id="logoutBtn") Cerrar Sesión
         main
             section
                 h2 Errores Cargados
@@ -83,3 +83,8 @@ html(lang="es")
                     button(type="submit") Agregar
         footer
             p &copy; 2025 Sistema de Errores Ranelagh
+        script.
+            document.getElementById('logoutBtn').addEventListener('click', async () => {
+                await fetch('/api/logout', { method: 'POST' });
+                window.location.href = '/login';
+            });

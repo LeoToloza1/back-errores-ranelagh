@@ -1,6 +1,13 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import { RepoPostgresPersonal } from "../repo/RepoPostgresPersonal.js";
 import { RepoPostrgresError } from "../repo/RepoPostrgresError.js";
+import { Usuario } from "../model/Usuario.js";
+
+declare module 'express-session' {
+    interface SessionData {
+        user?: Usuario;
+    }
+}
 
 export class ViewsRouter {
     router: Router;
@@ -14,6 +21,14 @@ export class ViewsRouter {
         this.cargarRutas();
     }
 
+    private requireAuth(req: Request, res: Response, next: NextFunction): void {
+        if (req.session.user) {
+            next();
+        } else {
+            res.redirect("/login");
+        }
+    }
+
     private cargarRutas() {
         this.router.get("/", (req: Request, res: Response) => {
             res.render("index");
@@ -23,7 +38,7 @@ export class ViewsRouter {
             res.render("login");
         });
 
-        this.router.get("/admin", async (req: Request, res: Response) => {
+        this.router.get("/admin", this.requireAuth, async (req: Request, res: Response) => {
             try {
                 const personal = await this.repoPersonal.getAll();
                 const errors = await this.repoError.getAll();
@@ -47,7 +62,7 @@ export class ViewsRouter {
         });
 
         // Rutas para ABM de personal
-        this.router.post("/admin/personal", async (req: Request, res: Response) => {
+        this.router.post("/admin/personal", this.requireAuth, async (req: Request, res: Response) => {
             try {
                 const { nombre, puesto, sector } = req.body;
                 const personal = new (await import("../model/Personal.js")).Personal(0, nombre, puesto, sector);
@@ -59,7 +74,7 @@ export class ViewsRouter {
             }
         });
 
-        this.router.post("/admin/personal/:id/delete", async (req: Request, res: Response) => {
+        this.router.post("/admin/personal/:id/delete", this.requireAuth, async (req: Request, res: Response) => {
             try {
                 const id = parseInt(req.params.id);
                 await this.repoPersonal.delete(id);
