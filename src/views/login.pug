@@ -5,6 +5,7 @@ html(lang="es")
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
         title Login - Panel de Admin
         link(rel="stylesheet" href="/css/styles.css")
+        script(type="module" defer src="/js/login.js")
     body
         header
             h1 Iniciar Sesión
@@ -23,20 +24,3 @@ html(lang="es")
                 p#message
         footer
             p &copy; 2025 Sistema de Errores Ranelagh
-        script.
-            document.getElementById('loginForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-                const result = await response.json();
-                if (response.ok) {
-                    window.location.href = '/admin';
-                } else {
-                    document.getElementById('message').textContent = result.error;
-                }
-            });

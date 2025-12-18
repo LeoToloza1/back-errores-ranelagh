@@ -15,15 +15,13 @@ export class LoginService {
         return user;
     }
 
-    async cambiarPassword(id: number, oldPassword: string, newPassword: string): Promise<void> {
-        const user = await this.repo.get(id);
-        if (!user) throw new Error("User not found");
-
-        const isValid = await this.authService.compararPass(oldPassword, user.getPassword());
-        if (!isValid) throw new Error("Invalid old password");
-
-        const hashedPass = await this.authService.hashearPass(newPassword);
-        user.setPassword(hashedPass);
-        await this.repo.actualizar(user);
+ async cambiarPassword(username: string, newPassword: string): Promise<void> {
+    const user = await this.repo.findByUsername(username);
+    if (!user) {
+        throw new Error("Usuario no encontrado");
     }
+    const hashedPass = await this.authService.hashearPass(newPassword);
+    user.setPassword(hashedPass);
+    await this.repo.actualizar(user);
+}
 }

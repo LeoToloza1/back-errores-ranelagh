@@ -17,7 +17,7 @@ export class LoginRouter {
         this.router.post("/logout", (req, res) => this.controller.logout(req, res));
 
         // Rutas Protegidas (Middleware authRequired aplicado aquí)
-        this.router.post("/cambiar-password", authRequired, (req, res) => 
+        this.router.post("/cambiar-password", (req, res) => 
             this.controller.cambiarPassword(req, res)
         );
         

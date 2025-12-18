@@ -58,23 +58,23 @@ export class LoginController {
         });
     }
 
-    async cambiarPassword(req: Request, res: Response): Promise<void> {
-        const { oldPassword, newPassword } = req.body;
-        const sessionUser = req.session.user!;
-
-        if (!oldPassword || !newPassword) {
-            res.status(400).json({ error: "La contraseña antigua y la nueva son requeridas" });
-            return;
-        }
-
-        try {
-            await this.loginService.cambiarPassword(sessionUser.id, oldPassword, newPassword);
-            res.status(200).json({ message: "Contraseña cambiada exitosamente" });
-        } catch (error: any) {
-            const status = error.message === "Contraseña antigua incorrecta" ? 401 : 500;
-            res.status(status).json({ error: error.message });
-        }
+async cambiarPassword(req: Request, res: Response): Promise<void> {
+    const { username, newPassword } = req.body;
+    console.log("Datos recibidos:", username, newPassword);
+    if (!username || !newPassword) {
+        res.status(400).json({ error: "El nombre de usuario y la nueva contraseña son requeridos" });
+        return;
     }
+
+    try {
+        await this.loginService.cambiarPassword(username, newPassword);
+        res.status(200).json({ message: "Contraseña actualizada correctamente" });
+    } catch (error: any) {
+        console.error("Error al cambiar password:", error);
+        const status = error.message === "Usuario no encontrado" ? 404 : 500;
+        res.status(status).json({ error: error.message });
+    }
+}
 
     getCurrentUser(req: Request, res: Response): void {
         res.status(200).json({ user: req.session.user });
