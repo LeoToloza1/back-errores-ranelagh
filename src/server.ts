@@ -10,18 +10,17 @@ import { fileURLToPath } from 'url';
 import { RepoPostgresUsuario } from "./repo/RepoPostgresUsuario.js";
 import { RepoPostgresPersonal } from "./repo/RepoPostgresPersonal.js";
 import { RepoPostrgresError } from "./repo/RepoPostrgresError.js";
-
 // Servicios
-import { AuthService } from "./services/AuthService.js";
-import { LoginService } from "./services/LoginService.js";
-
+import { AuthService } from "./services/authService.js";
+import { LoginService } from "./services/loginService.js";
+import { PersonalService } from "./services/PersonalService.js";
 // Controladores
 import { LoginController } from "./controller/LoginController.js";
-
+import { PersonalController } from "./controller/PersonalController.js";
 // Routers
 import { LoginRouter } from "./Router/loginRouter.js";
 import { ErroresRouter } from "./Router/router.js";
-
+import { PersonalRouter } from "./Router/PersonalRouter.js";
 // Configuración inicial
 dotenv.config();
 const app = express();
@@ -46,7 +45,7 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'clave_secreta_muy_segura',
     resave: false,
     saveUninitialized: false,
-    cookie: { 
+    cookie: {
         secure: false, // Cambiar a true si usas HTTPS
         httpOnly: true,
         maxAge: 3600000 // 1 hora de sesión
@@ -63,19 +62,22 @@ const repoErrores = new RepoPostrgresError();
 // 2. Capa de Negocio (Servicios)
 const authService = new AuthService();
 const loginService = new LoginService(repoUsuario, authService);
+const personalService = new PersonalService(repoPersonal);
 
 // 3. Capa de Presentación (Controladores)
 const loginController = new LoginController(loginService);
+const personalController = new PersonalController(personalService);
 // Nota: Si ErroresRouter necesita un controlador, instáncialo aquí también.
 
 // 4. Orquestación de Rutas (Routers)
 const loginRouter = new LoginRouter(loginController);
 const erroresRouter = new ErroresRouter(repoErrores); // O el controlador correspondiente
-
+const personalRouter = new PersonalRouter(personalController);
 // --- DEFINICIÓN DE RUTAS ---
 
 // Montamos el router de autenticación (Login, Logout, Me, Cambiar Pass)
 app.use("/api/auth", loginRouter.getRouter());
+app.use("/api/personal", personalRouter.getRouter());
 
 // Montamos el router de errores
 app.use("/api/errores", erroresRouter.getRouter());

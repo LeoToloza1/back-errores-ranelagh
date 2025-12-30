@@ -46,4 +46,36 @@ export class RepoPostgresPersonal implements IRepoBase<Personal> {
     async delete(id: number): Promise<void> {
         await this.pool.query("DELETE FROM personal WHERE id = $1", [id]);
     }
+
+    async buscarPorSector(sector: string): Promise<Personal[]> {
+        const res = await this.pool.query(
+            "SELECT * FROM personal WHERE sector = $1",
+            [sector]
+        );
+        return res.rows.map(row => new Personal(row.id, row.nombre, row.puesto, row.sector)) as Personal[] || null
+    }
+    async buscarPorPuesto(puesto: string): Promise<Personal[]> {
+        const res = await this.pool.query(
+            "SELECT * FROM personal WHERE puesto = $1",
+            [puesto]
+        );
+        return res.rows.map(row => new Personal(row.id, row.nombre, row.puesto, row.sector)) as Personal[] || null
+    }
+
+    async buscarPorNombre(nombre: string): Promise<Personal[]> {
+        const res = await this.pool.query(
+            "SELECT * FROM personal WHERE nombre = $1",
+            [nombre]
+        );
+        return res.rows.map(row => new Personal(row.id, row.nombre, row.puesto, row.sector)) as Personal[] || null
+    }
+
+    async buscarPorTipeo(tipeo: string) {
+        //concat_ws: Concatena todas las columnas en un solo bloque de texto separado por espacios y luego busca en todo ese bloque. Es muy útil para búsquedas globales.
+        const query = `
+            SELECT * FROM personal 
+            WHERE concat_ws(' ', nombre, puesto, sector) ILIKE $1`;
+        const res = await this.pool.query(query, [`%${tipeo}%`]);
+        return res.rows.map(row => new Personal(row.id, row.nombre, row.puesto, row.sector)) as Personal[] || null;
+    }
 }

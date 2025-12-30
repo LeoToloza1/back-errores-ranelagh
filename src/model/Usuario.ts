@@ -1,9 +1,9 @@
 import { Personal } from './Personal.js';
-export class Usuario{
-     private id: number = 0;
+export class Usuario {
+    private id: number = 0;
     private username: string;
-    private  password: string;
-    private  personal: Personal;
+    private password: string;
+    private personal: Personal;
 
     /**
      * Constructor de la clase Usuario.

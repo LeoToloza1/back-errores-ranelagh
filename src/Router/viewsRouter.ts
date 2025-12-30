@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { RepoPostgresPersonal } from "../repo/RepoPostgresPersonal.js";
 import { RepoPostrgresError } from "../repo/RepoPostrgresError.js";
 import { Usuario } from "../model/Usuario.js";
+import { Personal } from "../model/Personal.js";
 
 declare module 'express-session' {
     interface SessionData {
