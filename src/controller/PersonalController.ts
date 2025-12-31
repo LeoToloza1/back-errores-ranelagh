@@ -24,22 +24,11 @@ export class PersonalController {
     public async Eliminar(id: number): Promise<void> {
         return this._service.eliminar(id);
     }
-
-    public async BuscarPorSector(sector: string): Promise<Personal[]> {
-        return this._service.buscarPorSector(sector);
+    public async Buscar(filtros: any): Promise<Personal[]> {
+        const { nombre, puesto, sector, q } = filtros;
+        if (nombre) return this._service.buscarPorNombre(nombre);
+        if (puesto) return this._service.buscarPorPuesto(puesto);
+        if (sector) return this._service.buscarPorSector(sector);
+        return this._service.buscar(q || "");
     }
-
-    public async BuscarPorPuesto(puesto: string): Promise<Personal[]> {
-        return this._service.buscarPorPuesto(puesto);
-    }
-
-    public async BuscarPorNombre(nombre: string): Promise<Personal[]> {
-        return this._service.buscarPorNombre(nombre);
-    }
-
-    public async Buscar(termino: string): Promise<Personal[]> {
-        return this._service.buscar(termino);
-    }
-
-
-}
+} 

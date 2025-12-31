@@ -1,4 +1,5 @@
-export interface IErrorRanelagh {
+export interface IError {
+    id: number | null;
     refDocumento: string;
     responsable: string;
     detectadoPor: string;
@@ -8,6 +9,5 @@ export interface IErrorRanelagh {
     fechaRegistro: string;
     fechaResolucion: string;
     emitidoPor: string;
-    id?: number | null;
-    comparado?: boolean;
+    comparado: boolean
 }

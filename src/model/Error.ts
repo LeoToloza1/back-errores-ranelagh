@@ -1,4 +1,4 @@
-import { IErrorRanelagh } from "./IErrorRanelagh.js";
+import { IError } from "../interfaces/IError.js";
 
 export class ErrorRanelagh {
     private id: number | null;
@@ -13,7 +13,7 @@ export class ErrorRanelagh {
     private comparado: boolean;
     private emitidoPor: string;
 
-    constructor(props: IErrorRanelagh) {
+    constructor(props: IError) {
         this.id = props.id ?? null;
         this.refDocumento = props.refDocumento;
         this.responsable = props.responsable;

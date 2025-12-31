@@ -49,25 +49,26 @@ export class RepoPostgresPersonal implements IRepoBase<Personal> {
 
     async buscarPorSector(sector: string): Promise<Personal[]> {
         const res = await this.pool.query(
-            "SELECT * FROM personal WHERE sector = $1",
-            [sector]
+            "SELECT * FROM personal WHERE sector ILIKE $1",
+            [`%${sector}%`]
         );
-        return res.rows.map(row => new Personal(row.id, row.nombre, row.puesto, row.sector)) as Personal[] || null
+        return res.rows.map(row => new Personal(row.id, row.nombre, row.puesto, row.sector));
     }
+
     async buscarPorPuesto(puesto: string): Promise<Personal[]> {
         const res = await this.pool.query(
-            "SELECT * FROM personal WHERE puesto = $1",
-            [puesto]
+            "SELECT * FROM personal WHERE puesto ILIKE $1",
+            [`%${puesto}%`]
         );
-        return res.rows.map(row => new Personal(row.id, row.nombre, row.puesto, row.sector)) as Personal[] || null
+        return res.rows.map(row => new Personal(row.id, row.nombre, row.puesto, row.sector));
     }
 
     async buscarPorNombre(nombre: string): Promise<Personal[]> {
         const res = await this.pool.query(
-            "SELECT * FROM personal WHERE nombre = $1",
-            [nombre]
+            "SELECT * FROM personal WHERE nombre ILIKE $1",
+            [`%${nombre}%`]
         );
-        return res.rows.map(row => new Personal(row.id, row.nombre, row.puesto, row.sector)) as Personal[] || null
+        return res.rows.map(row => new Personal(row.id, row.nombre, row.puesto, row.sector));
     }
 
     async buscarPorTipeo(tipeo: string) {

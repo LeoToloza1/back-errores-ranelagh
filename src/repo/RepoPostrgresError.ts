@@ -94,7 +94,90 @@ export class RepoPostrgresError implements IRepoBase<ErrorRanelagh> {
         await this.pool.query('DELETE FROM errores WHERE id = $1', [id]);
     }
 
+    /**
+         * Búsqueda global por texto (ILIKE)
+         */
+    async buscar(termino: string): Promise<ErrorRanelagh[]> {
+        const query = `
+            SELECT * FROM errores 
+            WHERE responsable ILIKE $1 
+               OR comentarioerror ILIKE $1 
+               OR refdocumento ILIKE $1
+            ORDER BY id DESC`;
+        const res = await this.pool.query(query, [`%${termino}%`]);
+        return res.rows.map(row => this.mapRowToError(row));
+    }
 
+    /**
+     * Buscar errores entre dos fechas (Formato DD/MM/YYYY)
+     */
+    async buscarPorRangoFechas(inicio: string, fin: string): Promise<ErrorRanelagh[]> {
+        const query = `
+            SELECT * FROM errores 
+            WHERE TO_DATE(fecharegistro, 'YYYY-MM-DD') 
+            BETWEEN TO_DATE($1, 'YYYY-MM-DD') AND TO_DATE($2, 'YYYY-MM-DD')
+            ORDER BY TO_DATE(fecharegistro, 'YYYY-MM-DD') DESC`;
+
+        const res = await this.pool.query(query, [inicio, fin]);
+        return res.rows.map(row => this.mapRowToError(row));
+    }
+
+    async buscarPorPatronFecha(patron: string): Promise<ErrorRanelagh[]> {
+        const busqueda = patron.replace(/\//g, '-');
+        const query = `
+        SELECT * FROM errores 
+        WHERE fecharegistro ILIKE $1 
+        OR TO_CHAR(TO_DATE(fecharegistro, 'YYYY-MM-DD'), 'DD-MM-YYYY') ILIKE $1
+        ORDER BY id DESC`;
+        const res = await this.pool.query(query, [`%${busqueda}%`]);
+        return res.rows.map(row => this.mapRowToError(row));
+    }
+
+
+    /**
+     * Cuenta cuántos errores hubo en una fecha específica
+     */
+    async contarErroresPorFecha(fecha: string): Promise<number> {
+        const fechaFormateada = fecha.replace(/\//g, '-');
+        const query = `
+        SELECT COUNT(*) 
+        FROM errores 
+        WHERE TO_DATE(fecharegistro, 'YYYY-MM-DD') = TO_DATE($1, 'YYYY-MM-DD')`;
+        const res = await this.pool.query(query, [fechaFormateada]);
+        return parseInt(res.rows[0].count);
+    }
+    /**
+     * Estadísticas: Top Sectores con más errores
+     */
+    async getEstadisticasSectores(): Promise<{ sector: string, cantidad: number }[]> {
+        const query = `
+            SELECT sectorresponsable as sector, COUNT(*) as cantidad 
+            FROM errores 
+            GROUP BY sectorresponsable 
+            ORDER BY cantidad DESC`;
+        const res = await this.pool.query(query);
+        return res.rows.map(row => ({
+            sector: row.sector,
+            cantidad: parseInt(row.cantidad)
+        }));
+    }
+
+    /**
+     * Estadísticas: Errores por Responsable (Top 5)
+     */
+    async getTopResponsables(): Promise<{ nombre: string, cantidad: number }[]> {
+        const query = `
+            SELECT responsable as nombre, COUNT(*) as cantidad 
+            FROM errores 
+            GROUP BY responsable 
+            ORDER BY cantidad DESC 
+            LIMIT 5`;
+        const res = await this.pool.query(query);
+        return res.rows.map(row => ({
+            nombre: row.nombre,
+            cantidad: parseInt(row.cantidad)
+        }));
+    }
     private mapRowToError(row: any): ErrorRanelagh {
         return new ErrorRanelagh({
             refDocumento: row.refdocumento,

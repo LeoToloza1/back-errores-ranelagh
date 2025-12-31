@@ -1,10 +1,6 @@
 import { Router, Request, Response } from "express";
-import { Personal } from "../model/Personal.js";
 import { RepoPostrgresError } from "../repo/RepoPostrgresError.js";
-import { ErrorRanelagh } from "../model/Error.js";
 import dotenv from "dotenv";
-import { RepoPostgresPersonal } from "../repo/RepoPostgresPersonal.js";
-import { parse } from "path";
 import { Notificacion } from "../interfaces/Notificacion.js";
 dotenv.config();
 
