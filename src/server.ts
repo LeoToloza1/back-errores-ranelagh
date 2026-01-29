@@ -89,6 +89,9 @@ app.get("/", (req, res) => {
 app.get("/login", (req, res) => {
     res.render("login", { title: "Gestión de Errores" });
 });
+app.get("/admin", (req, res) => {
+    res.render("admin", { title: "Gestión de Errores" });
+});
 
 // Manejo de rutas no encontradas (404)
 app.use((req, res) => {

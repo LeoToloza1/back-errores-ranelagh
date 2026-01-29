@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { LoginController } from "../controllers/LoginController.js";
+import { LoginController } from "../controller/LoginController.js";
 import { authRequired } from "../middleware/authmiddleware.js";
 
 export class LoginRouter {
@@ -17,11 +17,11 @@ export class LoginRouter {
         this.router.post("/logout", (req, res) => this.controller.logout(req, res));
 
         // Rutas Protegidas (Middleware authRequired aplicado aquí)
-        this.router.post("/cambiar-password", (req, res) => 
+        this.router.post("/cambiar-password", (req, res) =>
             this.controller.cambiarPassword(req, res)
         );
-        
-        this.router.get("/me", authRequired, (req, res) => 
+
+        this.router.get("/me", authRequired, (req, res) =>
             this.controller.getCurrentUser(req, res)
         );
     }
