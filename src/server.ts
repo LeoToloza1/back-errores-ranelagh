@@ -21,6 +21,7 @@ import { PersonalController } from "./controller/PersonalController.js";
 import { LoginRouter } from "./Router/loginRouter.js";
 import { ErroresRouter } from "./Router/router.js";
 import { PersonalRouter } from "./Router/PersonalRouter.js";
+import { ViewsRouter } from "./Router/viewsRouter.js";
 // Configuración inicial
 dotenv.config();
 const app = express();
@@ -73,6 +74,7 @@ const personalController = new PersonalController(personalService);
 const loginRouter = new LoginRouter(loginController);
 const erroresRouter = new ErroresRouter(repoErrores); // O el controlador correspondiente
 const personalRouter = new PersonalRouter(personalController);
+const viewsRouter = new ViewsRouter(repoPersonal, repoErrores);
 // --- DEFINICIÓN DE RUTAS ---
 
 // Montamos el router de autenticación (Login, Logout, Me, Cambiar Pass)
@@ -82,16 +84,17 @@ app.use("/api/personal", personalRouter.getRouter());
 // Montamos el router de errores
 app.use("/api/errores", erroresRouter.getRouter());
 
+app.use("/", viewsRouter.getRouter());
 // Ruta para las vistas (Pug)
-app.get("/", (req, res) => {
-    res.render("index", { title: "Gestión de Errores" });
-});
-app.get("/login", (req, res) => {
-    res.render("login", { title: "Gestión de Errores" });
-});
-app.get("/admin", (req, res) => {
-    res.render("admin", { title: "Gestión de Errores" });
-});
+// app.get("/", (req, res) => {
+//     res.render("index", { title: "Gestión de Errores" });
+// });
+// app.get("/login", (req, res) => {
+//     res.render("login", { title: "Gestión de Errores" });
+// });
+// app.get("/admin", (req, res) => {
+//     res.render("admin", { title: "Gestión de Errores" });
+// });
 
 // Manejo de rutas no encontradas (404)
 app.use((req, res) => {

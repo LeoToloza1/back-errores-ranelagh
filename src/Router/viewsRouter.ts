@@ -89,4 +89,8 @@ export class ViewsRouter {
         // Para editar, agregar ruta GET /admin/personal/:id/edit y POST /admin/personal/:id/update
         // Por simplicidad, omitir por ahora, o agregar básico.
     }
+
+    getRouter() {
+        return this.router;
+    }
 }
