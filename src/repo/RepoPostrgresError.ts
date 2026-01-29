@@ -39,6 +39,13 @@ export class RepoPostrgresError implements IRepoBase<ErrorRanelagh> {
         return res.rows.map((row: any) => this.mapRowToError(row));
     }
 
+    async getAllByName(name: string): Promise<ErrorRanelagh[]> {
+        const query = `SELECT * FROM errores WHERE emitidopor ILIKE $1;`;
+        const values = [`%${name}%`];
+        const res = await this.pool.query(query, values);
+        return res.rows.map((row: any) => this.mapRowToError(row));
+    }
+
     async create(item: ErrorRanelagh): Promise<ErrorRanelagh> {
         const res = await this.pool.query(
             `INSERT INTO errores (

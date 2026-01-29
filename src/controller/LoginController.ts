@@ -24,16 +24,16 @@ export class LoginController {
             const user = await this.loginService.login(username, password);
 
             if (user) {
-                req.session.user = user;
 
-                res.status(200).json({
-                    message: "Login correcto",
-                    user: {
-                        id: user.getId(),
-                        username: user.getUsername(),
-                        personal: user.getPersonal(),
-                    }
-                });
+                req.session.user = {
+                    id: user.getId(),
+                    username: user.getUsername(),
+                    nombre: user.getPersonal().getNombre(),
+                    puesto: user.getPersonal().getPuesto(),
+                } as any;
+
+                res.status(200).json({ message: "Login correcto" });
+
             } else {
                 res.status(401).json({ error: "Credenciales incorrectas" });
             }
