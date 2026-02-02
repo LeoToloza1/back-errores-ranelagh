@@ -32,7 +32,8 @@ block content
             .field
                 label Hasta
                 input(type="date" name="fechaHasta" value=fechaHasta)
-            .field.btn-area
+            //- Quitamos el .btn-area o lo usamos para asegurar que no tenga márgenes raros
+            .field
                 button.btn-search(type="submit") Aplicar Filtros
 
     //- Tu tabla separada
