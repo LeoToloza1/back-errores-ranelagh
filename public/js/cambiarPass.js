@@ -61,3 +61,22 @@ document.getElementById('logoutBtn').onclick = async () => {
         if (res.ok) window.location.href = '/login';
     }
 };
+
+
+const sidebarToggle = document.getElementById('sidebarToggle');
+const body = document.body;
+
+sidebarToggle.addEventListener('click', () => {
+    body.classList.toggle('sidebar-collapsed');
+
+    // Opcional: Guardar en localStorage para que recuerde si estaba cerrado
+    const isCollapsed = body.classList.contains('sidebar-collapsed');
+    localStorage.setItem('sidebarStatus', isCollapsed ? 'collapsed' : 'expanded');
+});
+
+// Al cargar la página, verificar si debe estar colapsado
+window.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('sidebarStatus') === 'collapsed') {
+        body.classList.add('sidebar-collapsed');
+    }
+});
