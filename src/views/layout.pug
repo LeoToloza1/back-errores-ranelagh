@@ -9,6 +9,7 @@ html(lang="es")
         link(href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet")
         link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css")
         link(rel="icon" type="image/png" href="/img/logo_r.png")
+        script(type="module" src="/js/cambiarPass.js" defer) 
         link(rel="stylesheet" href="/css/styles.css")
     body.dashboard-layout
         aside.sidebar
@@ -27,6 +28,16 @@ html(lang="es")
                     i.bi.bi-people
                     span Personal
 
+            //- SECCIÓN DE USUARIO NUEVA
+            .sidebar-user
+                .user-info
+                    i.bi.bi-person-circle
+                    .user-details
+                        span.user-name #{nombreUsuario}
+                        span.user-role #{puesto}
+                a.nav-item.settings#openPasswordModal(href="javascript:void(0)")
+                    i.bi.bi-shield-lock
+                    span Cambiar Contraseña
             .sidebar-footer
                 button#logoutBtn.nav-item.logout
                     i.bi.bi-box-arrow-left
@@ -41,3 +52,29 @@ html(lang="es")
 
             //- Aquí se inyectará el contenido de admin.pug o personal.pug
             block content
+
+
+        #passwordModal.modal-overlay
+            .modal-content
+                .modal-header
+                    h2 Mi Perfil
+                    button#closeModal.close-btn: i.bi.bi-x-lg
+                form#profileForm.modal-form
+                    .field
+                        label Nuevo Nombre de Usuario
+                        input(type="text" name="newUsername" placeholder=username)
+                        small(style="color: var(--text-muted); font-size: 0.7rem;") Dejar en blanco para no cambiar
+                    .field
+                        label Nueva Contraseña
+                        input(type="password" name="newPassword" id="newPassword" placeholder="••••••••")
+                    .field
+                        label Confirmar Nueva Contraseña
+                        input(type="password" id="confirmPassword" placeholder="••••••••")
+
+                    p(style="font-size: 0.75rem; color: #e11d48; background: #fff1f2; padding: 10px; border-radius: 6px; border: 1px solid #ffe4e6;") 
+                        i.bi.bi-exclamation-circle(style="margin-right: 5px;")
+                        | Al guardar, se cerrará la sesión para aplicar los cambios.
+
+                    .modal-actions
+                        button.btn-secondary#cancelBtn(type="button") Cancelar
+                        button.btn-search(type="submit") Guardar y Salir
