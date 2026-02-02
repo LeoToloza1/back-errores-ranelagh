@@ -1,0 +1,51 @@
+name: Deploy a Servidor
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22' # Versión estable
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Compilar TypeScript
+        run: npm run build 
+
+      - name: Preparar Paquete de Despliegue
+        run: |
+          mkdir -p deploy
+          cp -r dist/* deploy/
+          cp -r public deploy/
+          cp -r views deploy/ # <--- IMPORTANTE: Si usas PUG, esta línea es obligatoria
+          cp package.json package-lock.json deploy/
+
+      - name: Desplegar vía rsync (SSH)
+        uses: Burnett01/rsync-deployments@7.0.1
+        with:
+          switches: -avzr --delete
+          path: ./deploy/
+          remote_path: /home/logistica/www
+          remote_host: ${{ secrets.SERVER_HOST }}
+          remote_user: ${{ secrets.SERVER_USER }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Reinicio específico para Alwaysdata usando la llave de los secrets
+      - name: Reiniciar Aplicación en Alwaysdata
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
+          chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "touch /home/logistica/www/restart.txt"
+          rm private_key
