@@ -530,3 +530,74 @@ body.dashboard-layout {
   padding: 0.5rem;
   border-radius: 6px;
 }
+
+/* --- SIDEBAR REFINADA --- */
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--sidebar-bg);
+  color: #f8fafc;
+  position: fixed;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  /* El secreto del efecto suave: */
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden; /* Evita que el texto "salte" al achicarse */
+}
+
+/* El contenido principal también debe moverse suavemente */
+.main-content {
+  margin-left: var(--sidebar-width);
+  flex-grow: 1;
+  padding: 2rem 3rem;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- ESTADO COLAPSADO --- */
+body.sidebar-collapsed .sidebar {
+  width: 75px; /* Un poquito más ancho para que los iconos respiren */
+}
+
+body.sidebar-collapsed .main-content {
+  margin-left: 75px;
+}
+
+/* Ocultar elementos con opacidad para que no desaparezcan de golpe */
+body.sidebar-collapsed .sidebar span,
+body.sidebar-collapsed .user-details,
+body.sidebar-collapsed .sidebar-footer span,
+body.sidebar-collapsed .header-brand {
+  display: none;
+  opacity: 0;
+}
+
+/* Quitar los iconos que pediste (Engranaje y Persona) */
+body.sidebar-collapsed .header-brand i.bi-gear-fill,
+body.sidebar-collapsed .user-info i.bi-person-circle {
+  display: none !important;
+}
+
+/* Centrado de iconos de navegación */
+body.sidebar-collapsed .nav-item {
+  justify-content: center;
+  padding: 0.75rem 0;
+  margin: 4px 8px; /* Un poco de margen lateral para que el hover sea redondeado */
+}
+
+body.sidebar-collapsed .nav-item i {
+  margin: 0;
+  font-size: 1.3rem;
+  transition: transform 0.2s;
+}
+
+/* Efecto sutil al pasar el mouse sobre el icono colapsado */
+body.sidebar-collapsed .nav-item:hover i {
+  transform: scale(1.1);
+}
+
+/* Centrar la R naranja arriba */
+body.sidebar-collapsed .sidebar-header {
+  justify-content: center;
+  padding: 1.25rem 0;
+}
