@@ -21,48 +21,51 @@ export class ViewsRouter {
     ) {
         this.cargarRutas();
     }
+
     private cargarRutas() {
         this.router.get("/", (req, res) => res.render("index"));
         this.router.get("/login", (req, res) => res.render("login"));
 
-        // VISTA DE ERRORES (Modificada)
+        // VISTA DE ERRORES
         this.router.get("/admin", authRequired, async (req: Request, res: Response) => {
             try {
-                const usuario = req.session.user as any;
-                const nombreUsuario = usuario?.nombre || "Usuario";
-                const puesto = usuario.puesto || "Desconocido";
-                const userSession = req.session.user as any;
+                const user = req.session.user as any;
 
-                // Acceso directo a las propiedades que definiste en el LoginController
-                const username = userSession?.username || "sin_usuario";
                 const [errores, totalPersonal] = await Promise.all([
                     this.repoError.getAll(),
                     this.repoPersonal.getAll()
                 ]);
+
                 const filteredErrors = this.filtrarErrores(errores, req.query);
+
                 res.render("admin", {
                     activePage: 'errores',
                     errors: filteredErrors.map(e => e.toJson()),
                     personal: totalPersonal,
-                    nombreUsuario,
-                    username,
-                    puesto,
+                    // Datos de sesión centralizados
+                    nombreUsuario: user?.nombre || "Usuario",
+                    username: user?.username || "invitado",
+                    puesto: user?.puesto || "Personal",
                     query: req.query
                 });
 
             } catch (error) {
-                res.render("admin", { activePage: 'errores', errors: [], error: "Error" });
+                res.render("admin", { activePage: 'errores', errors: [], error: "Error al cargar datos" });
             }
         });
 
-        // NUEVA VISTA DE PERSONAL
+        // VISTA DE PERSONAL (Corregida)
         this.router.get("/admin/personal", authRequired, async (req: Request, res: Response) => {
             try {
+                const user = req.session.user as any;
                 const personal = await this.repoPersonal.getAll();
+
                 res.render("personal", {
                     activePage: 'personal',
                     personal: personal.map(p => p.toJSON()),
-                    nombreUsuario: (req.session.user as any)?.nombre || "Usuario"
+                    nombreUsuario: user?.nombre || "Usuario",
+                    username: user?.username || "invitado",
+                    puesto: user?.puesto || "Personal"
                 });
             } catch (error) {
                 res.redirect("/admin?error=Error al cargar personal");

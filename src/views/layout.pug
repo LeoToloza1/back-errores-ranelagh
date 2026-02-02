@@ -17,7 +17,8 @@ html(lang="es")
                 .header-brand
                     i.bi.bi-gear-fill
                     span Gestión de Errores
-                .sidebar-logo: img(src="/img/logo_r.png" alt="Logo Ranelagh")
+                .sidebar-logo#sidebarToggle(style="cursor: pointer;")
+                    img(src="/img/logo_r.png" alt="Logo Ranelagh")
 
             nav.sidebar-nav
                 //- Usamos condicionales para la clase active
