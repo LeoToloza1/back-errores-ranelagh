@@ -1,0 +1,48 @@
+extends layout
+
+block title-area
+    h1 Gestión de Personal
+    p Administra los responsables y operarios del sistema
+
+block content
+    //- Formulario para agregar personal (nuevo)
+    section.content-card
+        .card-header: h2 Registrar Nuevo Personal
+        form.filter-grid(action="/admin/personal" method="POST")
+            .field
+                label Nombre Completo
+                input(type="text" name="nombre" required placeholder="Ej: Juan Pérez")
+            .field
+                label Puesto
+                input(type="text" name="puesto" required placeholder="Ej: Supervisor")
+            .field
+                label Sector
+                input(type="text" name="sector" required placeholder="Ej: Planta A")
+            .field
+                button.btn-search(type="submit") Guardar Personal
+
+    //- Listado de Personal
+    section.content-card
+        .card-header: h2 Listado de Personal Activo
+        .table-container
+            table.dash-table
+                thead
+                    tr
+                        th Nombre
+                        th Puesto
+                        th Sector
+                        th Acciones
+                tbody
+                    if personal && personal.length > 0
+                        each p in personal
+                            tr
+                                td.bold= p.nombre
+                                td= p.puesto
+                                td= p.sector
+                                td
+                                    form(action=`/admin/personal/${p.id}/delete` method="POST" onsubmit="return confirm('¿Eliminar a este usuario?')")
+                                        button.nav-item.logout(type="submit" style="padding: 5px; background: none;")
+                                            i.bi.bi-trash(style="color: #ef4444")
+                    else
+                        tr
+                            td(colspan="4" style="text-align: center; padding: 2rem;") No hay personal registrado.

@@ -1,0 +1,43 @@
+doctype html
+html(lang="es")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title Ranelagh - Gestión de Errores
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+        link(href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet")
+        link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css")
+        link(rel="icon" type="image/png" href="/img/logo_r.png")
+        link(rel="stylesheet" href="/css/styles.css")
+    body.dashboard-layout
+        aside.sidebar
+            .sidebar-header
+                .header-brand
+                    i.bi.bi-gear-fill
+                    span Gestión de Errores
+                .sidebar-logo: img(src="/img/logo_r.png" alt="Logo Ranelagh")
+
+            nav.sidebar-nav
+                //- Usamos condicionales para la clase active
+                a.nav-item(href="/admin" class=(activePage === 'errores' ? 'active' : '')) 
+                    i.bi.bi-exclamation-triangle
+                    span Errores
+                a.nav-item(href="/admin/personal" class=(activePage === 'personal' ? 'active' : '')) 
+                    i.bi.bi-people
+                    span Personal
+
+            .sidebar-footer
+                button#logoutBtn.nav-item.logout
+                    i.bi.bi-box-arrow-left
+                    span Cerrar Sesión
+
+        main.main-content
+            header.content-header
+                .header-title
+                    block title-area
+                .header-actions
+                    span.date-display #{new Date().toLocaleDateString()}
+
+            //- Aquí se inyectará el contenido de admin.pug o personal.pug
+            block content

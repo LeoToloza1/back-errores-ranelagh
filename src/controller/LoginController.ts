@@ -30,6 +30,7 @@ export class LoginController {
                     username: user.getUsername(),
                     nombre: user.getPersonal().getNombre(),
                     puesto: user.getPersonal().getPuesto(),
+                    sector: user.getPersonal().getSector(),
                 } as any;
 
                 res.status(200).json({ message: "Login correcto" });

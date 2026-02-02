@@ -34,14 +34,48 @@ export class RepoPostrgresError implements IRepoBase<ErrorRanelagh> {
         return this.mapRowToError(res.rows[0]);
     }
 
+    /**
+     * Obtiene la lista de todos los errores registrados en la base de datos.
+     * @returns una promesa que se resuelve con una lista de errores registrados.
+     * @throws {Error} si hay un error al obtener la lista de errores.
+     */
     async getAll(): Promise<ErrorRanelagh[]> {
         const res = await this.pool.query('SELECT * FROM errores');
         return res.rows.map((row: any) => this.mapRowToError(row));
     }
 
+    /**
+     * Devuelve una lista de errores que contengan el nombre especificado en su campo emitidoPor.
+     * @param name nombre a buscar en el campo emitidoPor de los errores.
+     * @returns una lista de errores que contengan el nombre especificado en su campo emitidoPor.
+     */
     async getAllByName(name: string): Promise<ErrorRanelagh[]> {
         const query = `SELECT * FROM errores WHERE emitidopor ILIKE $1;`;
         const values = [`%${name}%`];
+        const res = await this.pool.query(query, values);
+        return res.rows.map((row: any) => this.mapRowToError(row));
+    }
+
+    /**
+     * Devuelve una lista de errores que contengan el puesto especificado en su campo puestoresponsable.
+     * @param puesto puesto a buscar en el campo puestoresponsable de los errores.
+     * @returns una lista de errores que contengan el puesto especificado en su campo puestoresponsable.
+     */
+    async getByPuesto(puesto: string) {
+        const query = `SELECT * FROM errores WHERE puestoresponsable ILIKE $1;`;
+        const values = [`%${puesto}%`];
+        const res = await this.pool.query(query, values);
+        return res.rows.map((row: any) => this.mapRowToError(row));
+    }
+
+    /**
+     * Devuelve una lista de errores que contengan el sector especificado en su campo sectorresponsable.
+     * @param sector sector a buscar en el campo sectorresponsable de los errores.
+     * @returns una lista de errores que contengan el sector especificado en su campo sectorresponsable.
+     */
+    async getBySector(sector: string) {
+        const query = `SELECT * FROM errores WHERE sectorresponsable ILIKE $1;`;
+        const values = [`%${sector}%`];
         const res = await this.pool.query(query, values);
         return res.rows.map((row: any) => this.mapRowToError(row));
     }

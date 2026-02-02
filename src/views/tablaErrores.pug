@@ -1,0 +1,32 @@
+//- includes/tabla-errores.pug
+section.content-card
+    .card-header
+        h2 Listado de Errores
+    .table-container
+        table.dash-table
+            thead
+                tr
+                    th Documento
+                    th Responsable
+                    th Emitido Por
+                    th Fecha
+                    th Detectado por
+                    th Comentario
+            tbody
+                if errors && errors.length > 0
+                    each error in errors
+                        tr
+                            td.bold= error.refDocumento
+                            td= error.responsable
+                            td= error.emitidoPor
+                            td.text-nowrap= new Date(error.fechaRegistro).toLocaleDateString()
+                            td= error.detectadoPor
+                            td
+                                .comment-cell(title=error.comentarioError)
+                                    span= error.comentarioError
+                else
+                    tr
+                        //- Cambiado a colspan 6 para cubrir todas las columnas
+                        td(colspan="6" style="text-align: center; padding: 3rem; color: var(--text-muted);") 
+                            i.bi.bi-search(style="display: block; font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;")
+                            | No se encontraron errores con los filtros aplicados.

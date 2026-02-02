@@ -21,35 +21,46 @@ export class ViewsRouter {
     ) {
         this.cargarRutas();
     }
-
-    // private requireAuth = (req: Request, res: Response, next: NextFunction) => {
-    //     return req.session.user ? next() : res.redirect("/login");
-    // };
-
     private cargarRutas() {
         this.router.get("/", (req, res) => res.render("index"));
         this.router.get("/login", (req, res) => res.render("login"));
 
+        // VISTA DE ERRORES (Modificada)
         this.router.get("/admin", authRequired, async (req: Request, res: Response) => {
             try {
                 const usuario = req.session.user as any;
                 const nombreUsuario = usuario?.nombre || "Usuario";
-                const [personal, errores] = await Promise.all([
-                    this.repoPersonal.getAll(),
-                    this.repoError.getAllByName(nombreUsuario),
+
+
+                const [errores, totalPersonal] = await Promise.all([
+                    this.repoError.getAll(),
+                    this.repoPersonal.getAll()
                 ]);
-
-                const { responsable, fechaDesde, fechaHasta } = req.query;
                 const filteredErrors = this.filtrarErrores(errores, req.query);
-
                 res.render("admin", {
+                    activePage: 'errores',
                     errors: filteredErrors.map(e => e.toJson()),
-                    personal: personal.map(p => p.toJSON()),
+                    personal: totalPersonal, // <--- Faltaba pasar esto
                     nombreUsuario,
+                    query: req.query
+                });
+
+            } catch (error) {
+                res.render("admin", { activePage: 'errores', errors: [], error: "Error" });
+            }
+        });
+
+        // NUEVA VISTA DE PERSONAL
+        this.router.get("/admin/personal", authRequired, async (req: Request, res: Response) => {
+            try {
+                const personal = await this.repoPersonal.getAll();
+                res.render("personal", { // Usará personal.pug
+                    activePage: 'personal', // Para el layout
+                    personal: personal.map(p => p.toJSON()),
+                    nombreUsuario: (req.session.user as any)?.nombre || "Usuario"
                 });
             } catch (error) {
-                console.error("Error al cargar admin:", error);
-                res.render("admin", { errors: [], personal: [], error: "Error al cargar datos" });
+                res.redirect("/admin?error=Error al cargar personal");
             }
         });
 
