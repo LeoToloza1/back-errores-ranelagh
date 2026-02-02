@@ -20,6 +20,9 @@ export class LoginRouter {
         this.router.post("/cambiar-password", (req, res) =>
             this.controller.cambiarPassword(req, res)
         );
+        this.router.post("/actualizar", (req, res) =>
+            this.controller.actualizarPerfil(req, res)
+        );
 
         this.router.get("/me", authRequired, (req, res) =>
             this.controller.getCurrentUser(req, res)
