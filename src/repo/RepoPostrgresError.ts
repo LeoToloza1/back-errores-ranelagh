@@ -40,7 +40,7 @@ export class RepoPostrgresError implements IRepoBase<ErrorRanelagh> {
      * @throws {Error} si hay un error al obtener la lista de errores.
      */
     async getAll(): Promise<ErrorRanelagh[]> {
-        const res = await this.pool.query('SELECT * FROM errores');
+        const res = await this.pool.query('SELECT * FROM errores ORDER BY id DESC');
         return res.rows.map((row: any) => this.mapRowToError(row));
     }
 
