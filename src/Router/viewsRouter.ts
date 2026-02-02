@@ -30,8 +30,11 @@ export class ViewsRouter {
             try {
                 const usuario = req.session.user as any;
                 const nombreUsuario = usuario?.nombre || "Usuario";
+                const puesto = usuario.puesto || "Desconocido";
+                const userSession = req.session.user as any;
 
-
+                // Acceso directo a las propiedades que definiste en el LoginController
+                const username = userSession?.username || "sin_usuario";
                 const [errores, totalPersonal] = await Promise.all([
                     this.repoError.getAll(),
                     this.repoPersonal.getAll()
@@ -40,8 +43,10 @@ export class ViewsRouter {
                 res.render("admin", {
                     activePage: 'errores',
                     errors: filteredErrors.map(e => e.toJson()),
-                    personal: totalPersonal, // <--- Faltaba pasar esto
+                    personal: totalPersonal,
                     nombreUsuario,
+                    username,
+                    puesto,
                     query: req.query
                 });
 
@@ -54,8 +59,8 @@ export class ViewsRouter {
         this.router.get("/admin/personal", authRequired, async (req: Request, res: Response) => {
             try {
                 const personal = await this.repoPersonal.getAll();
-                res.render("personal", { // Usará personal.pug
-                    activePage: 'personal', // Para el layout
+                res.render("personal", {
+                    activePage: 'personal',
                     personal: personal.map(p => p.toJSON()),
                     nombreUsuario: (req.session.user as any)?.nombre || "Usuario"
                 });
