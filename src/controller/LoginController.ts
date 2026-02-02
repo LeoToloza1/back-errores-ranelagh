@@ -57,7 +57,6 @@ export class LoginController {
 
     async cambiarPassword(req: Request, res: Response): Promise<void> {
         const { username, newPassword } = req.body;
-        console.log("Datos recibidos:", username, newPassword);
         if (!username || !newPassword) {
             res.status(400).json({ error: "El nombre de usuario y la nueva contraseña son requeridos" });
             return;
@@ -65,7 +64,20 @@ export class LoginController {
 
         try {
             await this.loginService.cambiarPassword(username, newPassword);
-            res.status(200).json({ message: "Contraseña actualizada correctamente" });
+            req.session.destroy((err) => {
+                if (err) {
+                    console.error("Error destruyendo sesión post-cambio:", err);
+
+                    res.status(500).json({ error: "Contraseña cambiada pero hubo un error al cerrar la sesión" });
+                } else {
+                    console.log("Sesión cerrada post-cambio");
+                    res.clearCookie('connect.sid');
+                    res.status(200).json({
+                        message: "Contraseña actualizada. Por seguridad, debe iniciar sesión nuevamente."
+                    });
+                }
+            });
+
         } catch (error: any) {
             console.error("Error al cambiar password:", error);
             const status = error.message === "Usuario no encontrado" ? 404 : 500;
@@ -73,6 +85,49 @@ export class LoginController {
         }
     }
 
+
+    async actualizarPerfil(req: Request, res: Response): Promise<void> {
+        // Extraemos el username actual de la sesión para identificar al usuario en la DB
+        const currentUsername = (req.session.user as any)?.username;
+        const { newUsername, newPassword } = req.body;
+
+        if (!currentUsername) {
+            res.status(401).json({ error: "Sesión no válida" });
+            return;
+        }
+
+        // Validar que al menos llegue un dato para cambiar
+        if (!newUsername && !newPassword) {
+            res.status(400).json({ error: "No se proporcionaron datos para actualizar" });
+            return;
+        }
+
+        try {
+            // 1. Llamamos al servicio pasando el usuario actual y los nuevos datos
+            // El servicio debe encargarse de actualizar solo lo que no sea undefined
+            await this.loginService.updateUserProfile(currentUsername, {
+                username: newUsername || undefined,
+                password: newPassword || undefined
+            });
+
+            // 2. Si el cambio fue exitoso, destruimos la sesión
+            req.session.destroy((err) => {
+                if (err) {
+                    console.error("Error al destruir sesión:", err);
+                    res.status(500).json({ error: "Perfil actualizado pero hubo un error al cerrar sesión" });
+                } else {
+                    res.clearCookie('connect.sid');
+                    res.status(200).json({
+                        message: "Perfil actualizado con éxito. Por favor, reingrese al sistema."
+                    });
+                }
+            });
+
+        } catch (error: any) {
+            console.error("Error en actualizarPerfil:", error);
+            res.status(500).json({ error: error.message || "Error interno del servidor" });
+        }
+    }
     getCurrentUser(req: Request, res: Response): void {
         res.status(200).json({ user: req.session.user });
     }
