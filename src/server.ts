@@ -19,9 +19,11 @@ import { LoginController } from "./controller/LoginController.js";
 import { PersonalController } from "./controller/PersonalController.js";
 // Routers
 import { LoginRouter } from "./Router/loginRouter.js";
-import { ErroresRouter } from "./Router/router.js";
+import { ErroresRouter } from "./Router/erroresRouter.js";
 import { PersonalRouter } from "./Router/PersonalRouter.js";
 import { ViewsRouter } from "./Router/viewsRouter.js";
+import { ErroresService } from "./services/ErroresService.js";
+import { ErroresController } from "./controller/ErroresController.js";
 // Configuración inicial
 dotenv.config();
 const app = express();
@@ -64,15 +66,14 @@ const repoErrores = new RepoPostrgresError();
 const authService = new AuthService();
 const loginService = new LoginService(repoUsuario, authService);
 const personalService = new PersonalService(repoPersonal);
-
+const erroresService = new ErroresService(repoErrores, personalService);
 // 3. Capa de Presentación (Controladores)
 const loginController = new LoginController(loginService);
 const personalController = new PersonalController(personalService);
-// Nota: Si ErroresRouter necesita un controlador, instáncialo aquí también.
-
+const erroresController = new ErroresController(erroresService);
 // 4. Orquestación de Rutas (Routers)
 const loginRouter = new LoginRouter(loginController);
-const erroresRouter = new ErroresRouter(repoErrores); // O el controlador correspondiente
+const erroresRouter = new ErroresRouter(erroresController, repoErrores);
 const personalRouter = new PersonalRouter(personalController);
 const viewsRouter = new ViewsRouter(repoPersonal, repoErrores);
 // --- DEFINICIÓN DE RUTAS ---
