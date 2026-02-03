@@ -16,7 +16,7 @@ export async function obtenerDatos() {
  */
 export async function enviarErrores(data) {
     try {
-        const response = await fetch(`${URL_BASE}/registrar-error`, {
+        const response = await fetch(`${URL_BASE}/errores/registrar-error`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
